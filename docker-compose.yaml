@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+    nats:
+        image: nats:latest
+        command: []
+        ports:
+            - "4222:4222"
+            - "6222:6222"
+            - "8222:8222"
+    authorization-service:
+        image: jwalab/authorization-service:0.0.2
+        ports:
+            - "8999:8999"
+    airlock:
+        image: jwalab/airlock:0.0.7
+        ports:
+            - "8000:8000"

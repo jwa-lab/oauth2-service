@@ -1,0 +1,22 @@
+#! /usr/bin/env bash
+
+export NATS_URL=nats://localhost:4222
+export TOKEN_ENDPOINT=https://playtix.okta.com/oauth2/default/v1/token
+export USERINFO_ENDPOINT=https://playtix.okta.com/oauth2/default/v1/userinfo
+export AUTHORIZE_ENDPOINT=https://playtix.okta.com/oauth2/default/v1/authorize
+export AUTHN_ENDPOINT=https://playtix.okta.com/api/v1/authn
+export SESSIONS_ENDPOINT=https://playtix.okta.com/api/v1/sessions
+
+function start() {
+    node dist/index.js
+}
+
+function dev() {
+    npm run dev
+}
+
+function build() {
+    npm run build
+}
+
+"$@"
