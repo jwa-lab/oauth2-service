@@ -20,7 +20,7 @@ jobs:
             - run: npm install --force
             - run: npm run build
             - run:
-                  command: ./run start
+                  command: ./run start-node
                   background: true
             - run: sleep 6
             - run: ./run test
