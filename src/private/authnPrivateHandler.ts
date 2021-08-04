@@ -24,7 +24,7 @@ export const authnPrivateHandlers: PrivateNatsHandler[] = [
                     const createSessionCommand = CreateSessionCommand({
                         sessionToken: authnResponse.data?.sessionToken
                     });
-                    const createSessionRequest =
+                    const createSessionResponse =
                         (await sessionService.createSession(
                             createSessionCommand
                         )) as CreateSessionResponse;
@@ -33,7 +33,7 @@ export const authnPrivateHandlers: PrivateNatsHandler[] = [
                         "set-cookie",
                         JSON.stringify({
                             cookies: [
-                                `sid=${createSessionRequest.data.id}; Path=/; Secure; HttpOnly`
+                                `sid=${createSessionResponse.data.id}; Path=/; Secure; HttpOnly`
                             ]
                         })
                     );

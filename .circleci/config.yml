@@ -22,7 +22,7 @@ jobs:
             - run:
                   command: npm run start
                   background: true
-            - run: npm run test
+            - run: ./run test
 workflows:
     tests:
         jobs:
