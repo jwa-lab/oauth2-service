@@ -1,4 +1,4 @@
-import { RefreshTokenInterface } from "../../interfaces/token";
+import { ExchangeTokenInterface } from "../../interfaces/token";
 import * as yup from "yup";
 
 function exchangeTokenSchema() {
@@ -15,8 +15,8 @@ function exchangeTokenSchema() {
 }
 
 export default function ExchangeTokenCommand(
-    payload: RefreshTokenInterface
-): RefreshTokenInterface {
+    payload: ExchangeTokenInterface
+): ExchangeTokenInterface {
     const isValid = exchangeTokenSchema().isValidSync(payload, {
         strict: true
     });
