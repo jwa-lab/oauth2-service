@@ -22,6 +22,7 @@ jobs:
             - run:
                   command: ./run start
                   background: true
+            - run: sleep 6
             - run: ./run test
 workflows:
     tests:
