@@ -14,5 +14,10 @@ services:
             - "8999:8999"
     airlock:
         image: jwalab/airlock:0.0.7
+        environment:
+            - NATS_URL=nats://nats:4222
+            - AUTH_URL=authorization-service:8999
+            - AUTH_PROTOCOL=http
+            - SECURE=false
         ports:
             - "8000:8000"
