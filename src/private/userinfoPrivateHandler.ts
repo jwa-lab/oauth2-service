@@ -17,7 +17,7 @@ export const userinfoPrivateHandlers: PrivateNatsHandler[] = [
                         throw new Error("Invalid headers.");
                     }
 
-                    const userinfoCommand = UserinfoCommand({
+                    const userinfoCommand = new UserinfoCommand({
                         bearerToken: headers.get("authorization")
                     });
 

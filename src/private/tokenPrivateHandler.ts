@@ -26,13 +26,15 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
 
                     switch (data.grant_type) {
                         case "refresh_token":
-                            refreshTokenCommand = RefreshTokenCommand(data);
+                            refreshTokenCommand = new RefreshTokenCommand(data);
                             tokenResponse = (await tokenService.refreshToken(
                                 refreshTokenCommand
                             )) as RefreshTokenResponse;
                             break;
                         case "authorization_code":
-                            exchangeCodeCommand = ExchangeTokenCommand(data);
+                            exchangeCodeCommand = new ExchangeTokenCommand(
+                                data
+                            );
                             tokenResponse =
                                 (await tokenService.exchangeAuthorizationCode(
                                     exchangeCodeCommand

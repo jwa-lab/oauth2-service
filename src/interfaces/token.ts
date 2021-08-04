@@ -1,11 +1,13 @@
 import { ConnectorResponse } from "../network/config/connector";
+import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
+import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
 
 interface TokenServiceInterface {
     refreshToken: (
-        tokenCommand: RefreshTokenInterface
+        tokenCommand: RefreshTokenCommand
     ) => Promise<ConnectorResponse>;
     exchangeAuthorizationCode: (
-        exchangeTokenCommand: ExchangeTokenInterface
+        exchangeTokenCommand: ExchangeTokenCommand
     ) => Promise<ConnectorResponse>;
 }
 
@@ -27,9 +29,9 @@ interface ExchangeTokenResponse extends ConnectorResponse {
 
 interface RefreshTokenInterface {
     grant_type: string;
-    scope?: string | undefined;
     refresh_token: string;
     basic_auth: string;
+    scope?: string | undefined;
 }
 
 interface RefreshTokenResponse extends ConnectorResponse {

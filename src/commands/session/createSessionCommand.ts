@@ -1,25 +1,15 @@
-import * as yup from "yup";
 import { CreateSessionInterface } from "../../interfaces/session";
 
-function createSessionSchema() {
-    return yup
-        .object()
-        .shape({
-            sessionToken: yup.string().required()
-        })
-        .noUnknown(true);
-}
+export default class CreateSessionCommand {
+    readonly sessionToken: string;
 
-export default function CreateSessionCommand(
-    payload: CreateSessionInterface
-): CreateSessionInterface {
-    const isValid = createSessionSchema().isValidSync(payload, {
-        strict: true
-    });
+    constructor(payload: CreateSessionInterface) {
+        const { sessionToken } = payload;
 
-    if (!isValid) {
-        throw new Error("Invalid parameters.");
+        if (typeof sessionToken !== "string") {
+            throw new Error("Invalid session token");
+        }
+
+        this.sessionToken = sessionToken;
     }
-
-    return Object.freeze(Object.assign(Object.create(null), payload));
 }

@@ -1,8 +1,9 @@
 import { ConnectorResponse } from "../network/config/connector";
+import AuthorizeCommand from "../commands/authorize/authorizeCommand";
 
 interface AuthorizeServiceInterface {
     authorize: (
-        authorizeCommand: AuthorizeInterface
+        authorizeCommand: AuthorizeCommand
     ) => Promise<ConnectorResponse>;
 }
 

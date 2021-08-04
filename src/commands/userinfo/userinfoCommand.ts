@@ -1,24 +1,15 @@
 import { UserinfoInterface } from "../../interfaces/userinfo";
 
-import * as yup from "yup";
+export default class UserinfoCommand implements UserinfoInterface {
+    readonly bearerToken: string;
 
-function userInfoSchema() {
-    return yup
-        .object()
-        .shape({
-            bearerToken: yup.string().required()
-        })
-        .noUnknown(true);
-}
+    constructor(payload: UserinfoInterface) {
+        const { bearerToken } = payload;
 
-export default function UserinfoCommand(
-    payload: UserinfoInterface
-): UserinfoInterface {
-    const isValid = userInfoSchema().isValidSync(payload, { strict: true });
+        if (typeof bearerToken !== "string") {
+            throw new Error("Invalid bearerToken");
+        }
 
-    if (!isValid) {
-        throw new Error("Invalid parameters.");
+        this.bearerToken = bearerToken;
     }
-
-    return Object.freeze(Object.assign(Object.create(null), payload));
 }

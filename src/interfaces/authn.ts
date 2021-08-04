@@ -1,7 +1,8 @@
 import { ConnectorResponse } from "../network/config/connector";
+import AuthnCommand from "../commands/authn/authnCommand";
 
 interface AuthnServiceInterface {
-    authn: (authnCommand: AuthnInterface) => Promise<ConnectorResponse>;
+    authn: (authnCommand: AuthnCommand) => Promise<ConnectorResponse>;
 }
 
 interface AuthnResponseInterface extends ConnectorResponse {

@@ -2,10 +2,8 @@ import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
 import { USERINFO_ENDPOINT } from "../config";
-import {
-    UserinfoInterface,
-    UserinfoServiceInterface
-} from "../interfaces/userinfo";
+import { UserinfoServiceInterface } from "../interfaces/userinfo";
+import UserinfoCommand from "../commands/userinfo/userinfoCommand";
 
 export default class OktaUserinfoService implements UserinfoServiceInterface {
     private readonly _restConnector: ConnectorInterface;
@@ -15,7 +13,7 @@ export default class OktaUserinfoService implements UserinfoServiceInterface {
     }
 
     public async userinfo(
-        userinfoCommand: UserinfoInterface
+        userinfoCommand: UserinfoCommand
     ): Promise<ConnectorResponse> {
         const { bearerToken } = userinfoCommand;
 

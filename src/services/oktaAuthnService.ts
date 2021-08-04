@@ -1,6 +1,9 @@
-import ConnectorInterface, { ConnectorResponse } from "../network/config/connector";
+import ConnectorInterface, {
+    ConnectorResponse
+} from "../network/config/connector";
 import { AuthnInterface, AuthnServiceInterface } from "../interfaces/authn";
 import { AUTHN_ENDPOINT } from "../config";
+import AuthnCommand from "../commands/authn/authnCommand";
 
 export default class OktaAuthnService implements AuthnServiceInterface {
     private readonly _restConnector: ConnectorInterface;
@@ -9,9 +12,7 @@ export default class OktaAuthnService implements AuthnServiceInterface {
         this._restConnector = restConnector;
     }
 
-    public async authn(
-        authnCommand: AuthnInterface
-    ): Promise<ConnectorResponse> {
+    public async authn(authnCommand: AuthnCommand): Promise<ConnectorResponse> {
         const { username, password } = authnCommand;
         const payload = {
             username: username,

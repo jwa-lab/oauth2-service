@@ -1,26 +1,35 @@
 import { RefreshTokenInterface } from "../../interfaces/token";
-import * as yup from "yup";
 
-function refreshTokenSchema() {
-    return yup
-        .object()
-        .shape({
-            grant_type: yup.string().required(),
-            refresh_token: yup.string().required(),
-            basic_auth: yup.string().required(),
-            scope: yup.string()
-        })
-        .noUnknown(true);
-}
+export default class RefreshTokenCommand implements RefreshTokenInterface {
+    readonly grant_type: string;
+    readonly refresh_token: string;
+    readonly basic_auth: string;
+    readonly scope: string | undefined;
 
-export default function RefreshTokenCommand(
-    payload: RefreshTokenInterface
-): RefreshTokenInterface {
-    const isValid = refreshTokenSchema().isValidSync(payload, { strict: true });
+    constructor(payload: RefreshTokenInterface) {
+        const { grant_type, refresh_token, basic_auth, scope } = payload;
 
-    if (!isValid) {
-        throw new Error("Invalid parameters.");
+        if (typeof grant_type !== "string") {
+            throw new Error("Invalid grant_type");
+        }
+
+        if (typeof refresh_token !== "string") {
+            throw new Error("Invalid refresh_token");
+        }
+
+        if (typeof basic_auth !== "string") {
+            throw new Error("Invalid basic_auth");
+        }
+
+        if (scope) {
+            if (typeof scope !== "string") {
+                throw new Error("Invalid scope");
+            }
+        }
+
+        this.grant_type = grant_type;
+        this.refresh_token = refresh_token;
+        this.basic_auth = basic_auth;
+        this.scope = scope;
     }
-
-    return Object.freeze(Object.assign(Object.create(null), payload));
 }

@@ -14,7 +14,7 @@ export const sessionPrivateHandlers: PrivateNatsHandler[] = [
                     const data = jsonCodec.decode(
                         message.data
                     ) as SessionInterface;
-                    const createSessionCommand = CreateSessionCommand(data);
+                    const createSessionCommand = new CreateSessionCommand(data);
                     const sessionResponse = (await sessionService.createSession(
                         createSessionCommand
                     )) as CreateSessionResponse;

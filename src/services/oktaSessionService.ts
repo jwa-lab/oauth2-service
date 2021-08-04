@@ -1,6 +1,12 @@
-import ConnectorInterface, { ConnectorResponse } from "../network/config/connector";
+import ConnectorInterface, {
+    ConnectorResponse
+} from "../network/config/connector";
 import { SESSIONS_ENDPOINT } from "../config";
-import { CreateSessionInterface, SessionServiceInterface } from "../interfaces/session";
+import {
+    CreateSessionInterface,
+    SessionServiceInterface
+} from "../interfaces/session";
+import CreateSessionCommand from "../commands/session/createSessionCommand";
 
 export default class OktaSessionService implements SessionServiceInterface {
     private readonly _restConnector: ConnectorInterface;
@@ -10,7 +16,7 @@ export default class OktaSessionService implements SessionServiceInterface {
     }
 
     public async createSession(
-        createSessionCommand: CreateSessionInterface
+        createSessionCommand: CreateSessionCommand
     ): Promise<ConnectorResponse> {
         const { sessionToken } = createSessionCommand;
         const payload = {

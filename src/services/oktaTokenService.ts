@@ -1,7 +1,15 @@
-import ConnectorInterface, { ConnectorResponse } from "../network/config/connector";
+import ConnectorInterface, {
+    ConnectorResponse
+} from "../network/config/connector";
 import qs from "qs";
-import { ExchangeTokenInterface, RefreshTokenInterface, TokenServiceInterface } from "../interfaces/token";
+import {
+    ExchangeTokenInterface,
+    RefreshTokenInterface,
+    TokenServiceInterface
+} from "../interfaces/token";
 import { INTERNAL_REDIRECT_URI, TOKEN_ENDPOINT } from "../config";
+import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
+import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
 
 export default class OktaTokenService implements TokenServiceInterface {
     private readonly _restConnector: ConnectorInterface;
@@ -23,7 +31,7 @@ export default class OktaTokenService implements TokenServiceInterface {
     }
 
     public async refreshToken(
-        refreshTokenCommand: RefreshTokenInterface
+        refreshTokenCommand: RefreshTokenCommand
     ): Promise<ConnectorResponse> {
         const { scope, refresh_token, grant_type, basic_auth } =
             refreshTokenCommand;
@@ -37,7 +45,7 @@ export default class OktaTokenService implements TokenServiceInterface {
     }
 
     public async exchangeAuthorizationCode(
-        exchangeTokenCommand: ExchangeTokenInterface
+        exchangeTokenCommand: ExchangeTokenCommand
     ): Promise<ConnectorResponse> {
         const { client_id, client_secret, grant_type, code } =
             exchangeTokenCommand;

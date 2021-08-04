@@ -1,29 +1,42 @@
 import { ExchangeTokenInterface } from "../../interfaces/token";
-import * as yup from "yup";
 
-function exchangeTokenSchema() {
-    return yup
-        .object()
-        .shape({
-            grant_type: yup.string().required(),
-            client_id: yup.string().required(),
-            client_secret: yup.string().required(),
-            code: yup.string().required(),
-            redirect_uri: yup.string()
-        })
-        .noUnknown(true);
-}
+export default class ExchangeTokenCommand implements ExchangeTokenInterface {
+    readonly grant_type: string;
+    readonly client_id: string;
+    readonly client_secret: string;
+    readonly code: string;
+    readonly redirect_uri: string | undefined;
 
-export default function ExchangeTokenCommand(
-    payload: ExchangeTokenInterface
-): ExchangeTokenInterface {
-    const isValid = exchangeTokenSchema().isValidSync(payload, {
-        strict: true
-    });
+    constructor(payload: ExchangeTokenInterface) {
+        const { grant_type, client_id, client_secret, code, redirect_uri } =
+            payload;
 
-    if (!isValid) {
-        throw new Error("Invalid parameters.");
+        if (typeof grant_type !== "string") {
+            throw new Error("Invalid grant_type");
+        }
+
+        if (typeof client_id !== "string") {
+            throw new Error("Invalid client_id");
+        }
+
+        if (typeof client_secret !== "string") {
+            throw new Error("Invalid client_secret");
+        }
+
+        if (typeof code !== "string") {
+            throw new Error("Invalid code");
+        }
+
+        if (redirect_uri) {
+            if (typeof redirect_uri !== "string") {
+                throw new Error("Invalid redirect_uri");
+            }
+        }
+
+        this.grant_type = grant_type;
+        this.client_id = client_id;
+        this.client_secret = client_secret;
+        this.code = code;
+        this.redirect_uri = redirect_uri;
     }
-
-    return Object.freeze(Object.assign(Object.create(null), payload));
 }

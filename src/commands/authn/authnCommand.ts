@@ -1,22 +1,21 @@
-import * as yup from "yup";
 import { AuthnInterface } from "../../interfaces/authn";
 
-function authnSchema() {
-    return yup
-        .object()
-        .shape({
-            username: yup.string().required(),
-            password: yup.string().required()
-        })
-        .noUnknown(true);
-}
+export default class AuthnCommand implements AuthnInterface {
+    readonly username: string;
+    readonly password: string;
 
-export default function AuthnCommand(payload: AuthnInterface): AuthnInterface {
-    const isValid = authnSchema().isValidSync(payload, { strict: true });
+    constructor(payload: AuthnInterface) {
+        const { username, password } = payload;
 
-    if (!isValid) {
-        throw new Error("Invalid parameters.");
+        if (typeof username !== "string") {
+            throw new Error("Invalid username");
+        }
+
+        if (typeof password !== "string") {
+            throw new Error("Invalid password");
+        }
+
+        this.username = username;
+        this.password = password;
     }
-
-    return Object.freeze(Object.assign(Object.create(null), payload));
 }

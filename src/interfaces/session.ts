@@ -1,8 +1,9 @@
 import { ConnectorResponse } from "../network/config/connector";
+import CreateSessionCommand from "../commands/session/createSessionCommand";
 
 interface SessionServiceInterface {
     createSession: (
-        createSessionCommand: SessionInterface
+        createSessionCommand: CreateSessionCommand
     ) => Promise<ConnectorResponse>;
 }
 

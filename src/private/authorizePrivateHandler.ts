@@ -20,7 +20,7 @@ export const authorizePrivateHandlers: PrivateNatsHandler[] = [
                     ) as AuthorizeInterface;
                     data.cookie = headers?.get("cookie");
 
-                    const authorizeCommand = AuthorizeCommand(data);
+                    const authorizeCommand = new AuthorizeCommand(data);
                     const authorizeResponse = (await authorizeService.authorize(
                         authorizeCommand
                     )) as AuthorizeResponseInterface;
