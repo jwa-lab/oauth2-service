@@ -1,8 +1,7 @@
-import UserinfoCommand from "../commands/userinfo/userinfoCommand";
 import { ConnectorResponse } from "../network/config/connector";
 
 interface UserinfoServiceInterface {
-    userinfo: (userinfoCommand: UserinfoCommand) => Promise<ConnectorResponse>;
+    userinfo: (userinfoCommand: UserinfoInterface) => Promise<ConnectorResponse>;
 }
 
 interface UserinfoResponse extends ConnectorResponse {

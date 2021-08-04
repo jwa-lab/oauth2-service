@@ -1,13 +1,11 @@
-import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
 import { ConnectorResponse } from "../network/config/connector";
-import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
 
 interface TokenServiceInterface {
     refreshToken: (
-        tokenCommand: RefreshTokenCommand
+        tokenCommand: RefreshTokenInterface
     ) => Promise<ConnectorResponse>;
     exchangeAuthorizationCode: (
-        exchangeTokenCommand: ExchangeTokenCommand
+        exchangeTokenCommand: ExchangeTokenInterface
     ) => Promise<ConnectorResponse>;
 }
 
