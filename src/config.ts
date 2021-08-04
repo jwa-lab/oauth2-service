@@ -3,11 +3,11 @@ const SERVICE_NAME = "auth-service";
 const {
     NATS_URL = "nats://localhost:4222",
     INTERNAL_REDIRECT_URI = "http://localhost:8000/auth/auth-service/authorize_code",
-    TOKEN_ENDPOINT = "a",
-    USERINFO_ENDPOINT = "a",
-    AUTHORIZE_ENDPOINT = "a",
-    AUTHN_ENDPOINT = "a",
-    SESSIONS_ENDPOINT = "a"
+    TOKEN_ENDPOINT = "",
+    USERINFO_ENDPOINT = "",
+    AUTHORIZE_ENDPOINT = "",
+    AUTHN_ENDPOINT = "",
+    SESSIONS_ENDPOINT = ""
 } = process.env;
 
 const HANDLERS_SUBJECTS = {
