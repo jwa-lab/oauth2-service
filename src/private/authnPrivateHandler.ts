@@ -16,14 +16,14 @@ export const authnPrivateHandlers: PrivateNatsHandler[] = [
                     const data = jsonCodec.decode(
                         message.data
                     ) as AuthnInterface;
-                    console.log("a", data);
-                    const authnCommand = new AuthnCommand(data);
                     const responseHeaders = headers();
+
+                    const authnCommand = new AuthnCommand(data);
                     const authnResponse = (await authnService.authn(
                         authnCommand
                     )) as AuthnResponseInterface;
-                    console.log(authnResponse);
-                    const createSessionCommand = CreateSessionCommand({
+
+                    const createSessionCommand = new CreateSessionCommand({
                         sessionToken: authnResponse.data?.sessionToken
                     });
                     const createSessionResponse =
@@ -48,7 +48,6 @@ export const authnPrivateHandlers: PrivateNatsHandler[] = [
                         }
                     );
                 } catch (err) {
-                    console.log(err);
                     message.respond(
                         jsonCodec.encode({
                             error: err.message
