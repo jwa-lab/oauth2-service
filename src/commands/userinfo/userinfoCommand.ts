@@ -5,8 +5,8 @@ interface UserinfoInterface {
 export default class UserinfoCommand implements UserinfoInterface {
     readonly bearerToken: string;
 
-    constructor(payload: unknown) {
-        const { bearerToken } = payload as UserinfoInterface;
+    constructor(data: unknown) {
+        const { bearerToken } = data as UserinfoInterface;
 
         if (typeof bearerToken !== "string") {
             throw new Error("Invalid bearerToken");

@@ -7,8 +7,8 @@ export default class AuthnCommand implements AuthnInterface {
     readonly username: string;
     readonly password: string;
 
-    constructor(payload: unknown) {
-        const { username, password } = payload as AuthnInterface;
+    constructor(data: unknown) {
+        const { username, password } = data as AuthnInterface;
 
         if (typeof username !== "string") {
             throw new Error("Invalid username");

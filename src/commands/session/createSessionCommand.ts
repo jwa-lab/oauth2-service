@@ -5,8 +5,8 @@ interface CreateSessionInterface {
 export default class CreateSessionCommand implements CreateSessionInterface {
     readonly sessionToken: string;
 
-    constructor(payload: unknown) {
-        const { sessionToken } = payload as CreateSessionInterface;
+    constructor(data: unknown) {
+        const { sessionToken } = data as CreateSessionInterface;
 
         if (typeof sessionToken !== "string") {
             throw new Error("Invalid session token");

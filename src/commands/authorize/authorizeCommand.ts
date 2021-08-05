@@ -15,10 +15,10 @@ export default class AuthorizeCommand implements AuthorizeInterface {
     readonly cookie?: string | undefined;
     readonly sessionToken?: string | undefined;
 
-    constructor(payload: unknown) {
+    constructor(data: unknown) {
         const { state, client_id, redirect_uri, scope, sessionToken, cookie } =
-            payload as AuthorizeInterface;
-
+            data as AuthorizeInterface;
+        console.log(data);
         if (typeof state !== "string") {
             throw new Error("Invalid state");
         }

@@ -23,7 +23,7 @@ export const authorizePublicHandlers: PublicNatsHandler[] = [
                         `${SERVICE_NAME}.${HANDLERS_SUBJECTS.AUTHORIZE}`,
                         jsonCodec.encode({
                             ...(query as Record<never, unknown>),
-                            cookie: headers().get("cookie")
+                            cookie: (message?.headers && message.headers.get('cookie'))
                         }),
                         { timeout: 6000 }
                     );

@@ -16,6 +16,8 @@ export default class ExchangeTokenCommand implements ExchangeTokenInterface {
         const { grant_type, client_id, client_secret, code, redirect_uri } =
             data as ExchangeTokenInterface;
 
+        console.log(data);
+
         if (typeof grant_type !== "string") {
             throw new Error("Invalid grant_type");
         }
