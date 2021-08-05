@@ -18,7 +18,7 @@ export default class AuthorizeCommand implements AuthorizeInterface {
     constructor(data: unknown) {
         const { state, client_id, redirect_uri, scope, sessionToken, cookie } =
             data as AuthorizeInterface;
-        console.log(data);
+
         if (typeof state !== "string") {
             throw new Error("Invalid state");
         }

@@ -1,11 +1,6 @@
 import { Subscription } from "nats";
 import { HANDLERS_SUBJECTS, SERVICE_NAME } from "../config";
-import {
-    AirlockPayload,
-    getConnection,
-    jsonCodec,
-    PublicNatsHandler
-} from "../nats/nats";
+import { AirlockPayload, getConnection, jsonCodec, PublicNatsHandler } from "../nats/nats";
 
 export const authorizePublicHandlers: PublicNatsHandler[] = [
     [
@@ -18,7 +13,7 @@ export const authorizePublicHandlers: PublicNatsHandler[] = [
                     const { query } = jsonCodec.decode(
                         message.data
                     ) as AirlockPayload;
-
+                    console.log(message.headers.get("cookie"));
                     const response = await natsConnection.request(
                         `${SERVICE_NAME}.${HANDLERS_SUBJECTS.AUTHORIZE}`,
                         jsonCodec.encode({
