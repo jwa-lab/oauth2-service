@@ -1,11 +1,11 @@
-import { headers, Subscription } from "nats";
+import { Subscription } from "nats";
+import { HANDLERS_SUBJECTS, SERVICE_NAME } from "../config";
 import {
     AirlockPayload,
     getConnection,
     jsonCodec,
     PublicNatsHandler
 } from "../nats/nats";
-import { HANDLERS_SUBJECTS, SERVICE_NAME } from "../config";
 
 export const authorizePublicHandlers: PublicNatsHandler[] = [
     [
@@ -23,7 +23,9 @@ export const authorizePublicHandlers: PublicNatsHandler[] = [
                         `${SERVICE_NAME}.${HANDLERS_SUBJECTS.AUTHORIZE}`,
                         jsonCodec.encode({
                             ...(query as Record<never, unknown>),
-                            cookie: (message?.headers && message.headers.get('cookie'))
+                            cookie:
+                                message?.headers &&
+                                message.headers.get("cookie")
                         }),
                         { timeout: 6000 }
                     );
