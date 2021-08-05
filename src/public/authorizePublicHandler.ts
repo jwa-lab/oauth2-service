@@ -13,7 +13,7 @@ export const authorizePublicHandlers: PublicNatsHandler[] = [
                     const { query } = jsonCodec.decode(
                         message.data
                     ) as AirlockPayload;
-                    console.log(message.headers.get("cookie"));
+                    console.log(message.headers && message.headers.get("cookie"));
                     const response = await natsConnection.request(
                         `${SERVICE_NAME}.${HANDLERS_SUBJECTS.AUTHORIZE}`,
                         jsonCodec.encode({
