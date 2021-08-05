@@ -33,6 +33,15 @@ export interface AirlockPayload {
     query: JSONValue;
 }
 
+export function deserialize<T>(
+    serialized: Uint8Array,
+    deserializer: { new (data: unknown): T }
+): T {
+    const deserialized = jsonCodec.decode(serialized);
+
+    return new deserializer(deserialized);
+}
+
 let natsConnection: NatsConnection;
 
 export async function init(): Promise<void> {

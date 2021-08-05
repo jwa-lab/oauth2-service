@@ -1,11 +1,14 @@
-import { AuthnInterface } from "../../interfaces/authn";
+interface AuthnInterface {
+    username: string;
+    password: string;
+}
 
 export default class AuthnCommand implements AuthnInterface {
     readonly username: string;
     readonly password: string;
 
-    constructor(payload: AuthnInterface) {
-        const { username, password } = payload;
+    constructor(payload: unknown) {
+        const { username, password } = payload as AuthnInterface;
 
         if (typeof username !== "string") {
             throw new Error("Invalid username");

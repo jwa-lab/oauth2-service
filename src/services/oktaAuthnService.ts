@@ -1,15 +1,22 @@
 import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
-import { AuthnInterface, AuthnServiceInterface } from "../interfaces/authn";
 import { AUTHN_ENDPOINT } from "../config";
 import AuthnCommand from "../commands/authn/authnCommand";
 
+interface AuthnServiceInterface {
+    authn: (authnCommand: AuthnCommand) => Promise<ConnectorResponse>;
+}
+
 export default class OktaAuthnService implements AuthnServiceInterface {
-    private readonly _restConnector: ConnectorInterface;
+    private readonly restConnector: ConnectorInterface;
 
     constructor(restConnector: ConnectorInterface) {
-        this._restConnector = restConnector;
+        if (!restConnector) {
+            throw new Error("No valid REST connector.");
+        }
+
+        this.restConnector = restConnector;
     }
 
     public async authn(authnCommand: AuthnCommand): Promise<ConnectorResponse> {
@@ -21,8 +28,8 @@ export default class OktaAuthnService implements AuthnServiceInterface {
                 multiOptionalFactorEnroll: false,
                 warnBeforePasswordExpired: false
             }
-        } as AuthnInterface;
+        };
 
-        return this._restConnector.post(AUTHN_ENDPOINT, payload);
+        return this.restConnector.post(AUTHN_ENDPOINT, payload);
     }
 }

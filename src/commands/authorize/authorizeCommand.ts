@@ -1,4 +1,11 @@
-import { AuthorizeInterface } from "../../interfaces/authorize";
+interface AuthorizeInterface {
+    state: string;
+    client_id: string;
+    redirect_uri: string;
+    scope: string;
+    cookie?: string | undefined;
+    sessionToken?: string | undefined;
+}
 
 export default class AuthorizeCommand implements AuthorizeInterface {
     readonly state: string;
@@ -8,9 +15,9 @@ export default class AuthorizeCommand implements AuthorizeInterface {
     readonly cookie?: string | undefined;
     readonly sessionToken?: string | undefined;
 
-    constructor(payload: AuthorizeInterface) {
+    constructor(payload: unknown) {
         const { state, client_id, redirect_uri, scope, sessionToken, cookie } =
-            payload;
+            payload as AuthorizeInterface;
 
         if (typeof state !== "string") {
             throw new Error("Invalid state");

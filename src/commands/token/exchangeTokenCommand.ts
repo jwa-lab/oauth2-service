@@ -1,5 +1,10 @@
-import { ExchangeTokenInterface } from "../../interfaces/token";
-
+interface ExchangeTokenInterface {
+    grant_type: string;
+    redirect_uri?: string | undefined;
+    client_id: string;
+    client_secret: string;
+    code: string;
+}
 export default class ExchangeTokenCommand implements ExchangeTokenInterface {
     readonly grant_type: string;
     readonly client_id: string;
@@ -7,9 +12,9 @@ export default class ExchangeTokenCommand implements ExchangeTokenInterface {
     readonly code: string;
     readonly redirect_uri: string | undefined;
 
-    constructor(payload: ExchangeTokenInterface) {
+    constructor(data: unknown) {
         const { grant_type, client_id, client_secret, code, redirect_uri } =
-            payload;
+            data as ExchangeTokenInterface;
 
         if (typeof grant_type !== "string") {
             throw new Error("Invalid grant_type");

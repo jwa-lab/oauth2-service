@@ -1,7 +1,12 @@
-import { AirlockPayload, jsonCodec, PublicNatsHandler } from "../nats/nats";
 import { Subscription } from "nats";
+import { AirlockPayload, jsonCodec, PublicNatsHandler } from "../nats/nats";
 import { HANDLERS_SUBJECTS } from "../config";
 import { AuthorizeCodeInterface } from "../interfaces/authorize";
+
+interface AuthorizeCodeInterface {
+    code: string;
+    state?: string;
+}
 
 export const authorizeCodePublicHandlers: PublicNatsHandler[] = [
     [

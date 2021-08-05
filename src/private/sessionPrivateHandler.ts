@@ -1,9 +1,15 @@
-import { jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { Subscription } from "nats";
+import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { HANDLERS_SUBJECTS } from "../config";
 import CreateSessionCommand from "../commands/session/createSessionCommand";
-import { CreateSessionResponse, SessionInterface } from "../interfaces/session";
 import { sessionService } from "../di.config";
+import { ConnectorResponse } from "../network/config/connector";
+
+export interface CreateSessionResponse extends ConnectorResponse {
+    data: {
+        id: string;
+    };
+}
 
 export const sessionPrivateHandlers: PrivateNatsHandler[] = [
     [
@@ -11,9 +17,10 @@ export const sessionPrivateHandlers: PrivateNatsHandler[] = [
         async (subscription: Subscription): Promise<void> => {
             for await (const message of subscription) {
                 try {
-                    const data = jsonCodec.decode(
-                        message.data
-                    ) as SessionInterface;
+                    const data = deserialize<CreateSessionCommand>(
+                        message.data,
+                        CreateSessionCommand
+                    );
                     const createSessionCommand = new CreateSessionCommand(data);
                     const sessionResponse = (await sessionService.createSession(
                         createSessionCommand

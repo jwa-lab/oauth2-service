@@ -1,12 +1,17 @@
-import { jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { Subscription } from "nats";
+import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { HANDLERS_SUBJECTS } from "../config";
-import {
-    AuthorizeInterface,
-    AuthorizeResponseInterface
-} from "../interfaces/authorize";
 import { authorizeService } from "../di.config";
 import AuthorizeCommand from "../commands/authorize/authorizeCommand";
+import { ConnectorResponse } from "../network/config/connector";
+
+interface AuthorizeResponseInterface extends ConnectorResponse {
+    data: {
+        code: string;
+        state: string;
+        redirect_uri: string;
+    };
+}
 
 export const authorizePrivateHandlers: PrivateNatsHandler[] = [
     [
@@ -14,12 +19,10 @@ export const authorizePrivateHandlers: PrivateNatsHandler[] = [
         async (subscription: Subscription): Promise<void> => {
             for await (const message of subscription) {
                 try {
-                    const { headers } = message;
-                    const data = jsonCodec.decode(
-                        message.data
-                    ) as AuthorizeInterface;
-                    data.cookie = headers?.get("cookie");
-
+                    const data = deserialize<AuthorizeCommand>(
+                        message.data,
+                        AuthorizeCommand
+                    );
                     const authorizeCommand = new AuthorizeCommand(data);
                     const authorizeResponse = (await authorizeService.authorize(
                         authorizeCommand

@@ -2,17 +2,23 @@ import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
 import { SESSIONS_ENDPOINT } from "../config";
-import {
-    CreateSessionInterface,
-    SessionServiceInterface
-} from "../interfaces/session";
 import CreateSessionCommand from "../commands/session/createSessionCommand";
 
+interface SessionServiceInterface {
+    createSession: (
+        createSessionCommand: CreateSessionCommand
+    ) => Promise<ConnectorResponse>;
+}
+
 export default class OktaSessionService implements SessionServiceInterface {
-    private readonly _restConnector: ConnectorInterface;
+    private readonly restConnector: ConnectorInterface;
 
     constructor(restConnector: ConnectorInterface) {
-        this._restConnector = restConnector;
+        if (!restConnector) {
+            throw new Error("No valid REST connector.");
+        }
+
+        this.restConnector = restConnector;
     }
 
     public async createSession(
@@ -21,8 +27,8 @@ export default class OktaSessionService implements SessionServiceInterface {
         const { sessionToken } = createSessionCommand;
         const payload = {
             sessionToken: sessionToken
-        } as CreateSessionInterface;
+        };
 
-        return this._restConnector.post(SESSIONS_ENDPOINT, payload);
+        return this.restConnector.post(SESSIONS_ENDPOINT, payload);
     }
 }

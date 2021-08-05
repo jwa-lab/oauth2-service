@@ -1,9 +1,9 @@
 import fetch from "node-fetch";
+import { URLSearchParams } from "url";
 import ConnectorInterface, {
     ConnectorConfigInterface,
     ConnectorResponse
 } from "./config/connector";
-import { URLSearchParams } from "url";
 
 export default class FetchConnector implements ConnectorInterface {
     public async get(

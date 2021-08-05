@@ -1,28 +1,36 @@
+import qs from "qs";
 import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
-import qs from "qs";
-import {
-    ExchangeTokenInterface,
-    RefreshTokenInterface,
-    TokenServiceInterface
-} from "../interfaces/token";
 import { INTERNAL_REDIRECT_URI, TOKEN_ENDPOINT } from "../config";
 import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
 import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
 
+interface TokenServiceInterface {
+    refreshToken: (
+        tokenCommand: RefreshTokenCommand
+    ) => Promise<ConnectorResponse>;
+    exchangeAuthorizationCode: (
+        exchangeTokenCommand: ExchangeTokenCommand
+    ) => Promise<ConnectorResponse>;
+}
+
 export default class OktaTokenService implements TokenServiceInterface {
-    private readonly _restConnector: ConnectorInterface;
+    private readonly restConnector: ConnectorInterface;
 
     constructor(restConnector: ConnectorInterface) {
-        this._restConnector = restConnector;
+        if (!restConnector) {
+            throw new Error("No valid REST connector.");
+        }
+
+        this.restConnector = restConnector;
     }
 
     private async postToken(
-        payload: RefreshTokenInterface | ExchangeTokenInterface,
+        payload: unknown,
         basic_auth?: string
     ): Promise<ConnectorResponse> {
-        return this._restConnector.post(TOKEN_ENDPOINT, qs.stringify(payload), {
+        return this.restConnector.post(TOKEN_ENDPOINT, qs.stringify(payload), {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 ...(basic_auth && { authorization: `Basic ${basic_auth}` })
@@ -39,7 +47,7 @@ export default class OktaTokenService implements TokenServiceInterface {
             grant_type: grant_type,
             refresh_token: refresh_token,
             ...(scope && { scope: scope })
-        } as RefreshTokenInterface;
+        };
 
         return this.postToken(payload, basic_auth);
     }
@@ -55,7 +63,7 @@ export default class OktaTokenService implements TokenServiceInterface {
             client_id: client_id,
             client_secret: client_secret,
             code: code
-        } as ExchangeTokenInterface;
+        };
 
         return this.postToken(payload);
     }
