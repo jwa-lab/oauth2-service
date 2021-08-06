@@ -40,8 +40,15 @@ export function deserialize<T>(
     headers?: MsgHdrs
 ): T {
     const deserialized = jsonCodec.decode(serialized) as Record<never, unknown>;
+    const parsedHeaders: JSONValue = {};
 
-    return new deserializer({ ...deserialized, ...headers });
+    if (headers) {
+        for (const [key] of headers) {
+            parsedHeaders[key] = headers.get(key);
+        }
+    }
+
+    return new deserializer({ ...deserialized, ...(headers && parsedHeaders) });
 }
 
 let natsConnection: NatsConnection;

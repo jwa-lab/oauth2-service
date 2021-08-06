@@ -1,6 +1,11 @@
 import { Subscription } from "nats";
 import { HANDLERS_SUBJECTS, SERVICE_NAME } from "../config";
-import { AirlockPayload, getConnection, jsonCodec, PublicNatsHandler } from "../nats/nats";
+import {
+    AirlockPayload,
+    getConnection,
+    jsonCodec,
+    PublicNatsHandler
+} from "../nats/nats";
 
 export const authorizePublicHandlers: PublicNatsHandler[] = [
     [
@@ -17,7 +22,7 @@ export const authorizePublicHandlers: PublicNatsHandler[] = [
                     const response = await natsConnection.request(
                         `${SERVICE_NAME}.${HANDLERS_SUBJECTS.AUTHORIZE}`,
                         jsonCodec.encode(query),
-                        { timeout: 6000 }
+                        { timeout: 6000, headers: message.headers }
                     );
 
                     message.respond(response.data);
