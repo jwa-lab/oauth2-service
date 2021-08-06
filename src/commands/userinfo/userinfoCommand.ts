@@ -9,7 +9,7 @@ export default class UserinfoCommand implements UserinfoInterface {
         const { bearerToken } = data as UserinfoInterface;
 
         if (typeof bearerToken !== "string") {
-            throw new Error("Invalid bearerToken");
+            throw new Error("INVALID_BEARER");
         }
 
         this.bearerToken = bearerToken;

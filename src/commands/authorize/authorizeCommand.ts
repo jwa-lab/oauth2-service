@@ -20,34 +20,34 @@ export default class AuthorizeCommand implements AuthorizeInterface {
             data as AuthorizeInterface;
 
         if (typeof state !== "string") {
-            throw new Error("Invalid state");
+            throw new Error("INVALID_STATE");
         }
 
         if (typeof client_id !== "string") {
-            throw new Error("Invalid client_id");
+            throw new Error("INVALID_CLIENT_ID");
         }
 
         if (typeof redirect_uri !== "string") {
-            throw new Error("Invalid redirect_uri");
+            throw new Error("INVALID_REDIRECT_URI");
         }
 
         if (typeof scope !== "string") {
-            throw new Error("Invalid scope");
+            throw new Error("INVALID_SCOPE");
         }
 
         if (!cookie && !sessionToken) {
-            throw new Error("Missing authentication factor.");
+            throw new Error("MISSING_AUTHENTICATION_FACTOR");
         }
 
         if (cookie) {
             if (typeof cookie !== "string") {
-                throw new Error("Invalid cookie");
+                throw new Error("INVALID_COOKIE");
             }
         }
 
         if (sessionToken) {
             if (typeof sessionToken !== "string") {
-                throw new Error("Invalid session token");
+                throw new Error("INVALID_SESSION_TOKEN");
             }
         }
 

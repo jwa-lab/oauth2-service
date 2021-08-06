@@ -17,24 +17,24 @@ export default class ExchangeTokenCommand implements ExchangeTokenInterface {
             data as ExchangeTokenInterface;
 
         if (typeof grant_type !== "string") {
-            throw new Error("Invalid grant_type");
+            throw new Error("INVALID_GRANT_TYPE");
         }
 
         if (typeof client_id !== "string") {
-            throw new Error("Invalid client_id");
+            throw new Error("INVALID_CLIENT_ID");
         }
 
         if (typeof client_secret !== "string") {
-            throw new Error("Invalid client_secret");
+            throw new Error("INVALID_CLIENT_SECRET");
         }
 
         if (typeof code !== "string") {
-            throw new Error("Invalid code");
+            throw new Error("INVALID_CODE");
         }
 
         if (redirect_uri) {
             if (typeof redirect_uri !== "string") {
-                throw new Error("Invalid redirect_uri");
+                throw new Error("INVALID_REDIRECT_URI");
             }
         }
 

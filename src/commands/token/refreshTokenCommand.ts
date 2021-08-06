@@ -16,20 +16,20 @@ export default class RefreshTokenCommand implements RefreshTokenInterface {
             data as RefreshTokenInterface;
 
         if (typeof grant_type !== "string") {
-            throw new Error("Invalid grant_type");
+            throw new Error("INVALID_GRANT_TYPE");
         }
 
         if (typeof refresh_token !== "string") {
-            throw new Error("Invalid refresh_token");
+            throw new Error("INVALID_REFRESH_TOKEN");
         }
 
         if (typeof basic_auth !== "string") {
-            throw new Error("Invalid basic_auth");
+            throw new Error("INVALID_BASIC");
         }
 
         if (scope) {
             if (typeof scope !== "string") {
-                throw new Error("Invalid scope");
+                throw new Error("INVALID_SCOPE");
             }
         }
 

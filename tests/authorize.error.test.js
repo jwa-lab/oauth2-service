@@ -11,21 +11,12 @@ describe("Given Auth Service is connected to NATS", () => {
     });
 
     describe("When I try to authorize a user with an invalid cookie", () => {
-        let authnResponse;
         let authorizeResponse;
 
         beforeAll(async () => {
             jest.setTimeout(JEST_TIMEOUT);
-            authnResponse = await natsConnection.request(
-                "auth-service.authn",
-                jsonCodec.encode({
-                    username: TEST_USER.AUTH_SERVICE_USERNAME,
-                    password: TEST_USER.AUTH_SERVICE_PASSWORD
-                }),
-                { timeout: JEST_TIMEOUT }
-            );
             const natsHeaders = headers();
-            natsHeaders.append("cookie", "sid=ThisIsABadCookieValue");
+            natsHeaders.append("cookie", "sid=INVALID_COOKIE_VALUE");
             authorizeResponse = await natsConnection.request(
                 "auth-service.authorize",
                 jsonCodec.encode({
@@ -36,9 +27,33 @@ describe("Given Auth Service is connected to NATS", () => {
             );
         });
 
-        it("Then returns an error.", () => {
-            expect(jsonCodec.decode(authorizeResponse.data).error.message).toBe(
+        it("Then returns an error", () => {
+            expect(jsonCodec.decode(authorizeResponse.data).error).toBe(
                 "EXPIRED_OR_INVALID_COOKIE"
+            );
+        });
+    });
+
+    describe("When I try to start the authorize flow with no client", () => {
+        let authorizeResponse;
+
+        beforeAll(async () => {
+            jest.setTimeout(JEST_TIMEOUT);
+            const natsHeaders = headers();
+            natsHeaders.append("cookie", "sid=SAMPLE_COOKIE_VALUE");
+            authorizeResponse = await natsConnection.request(
+                "auth-service.authorize",
+                jsonCodec.encode({
+                    client_id: "",
+                    ...APP_CONFIG
+                }),
+                { timeout: 6000, headers: natsHeaders }
+            );
+        });
+
+        it("Then returns an error", () => {
+            expect(jsonCodec.decode(authorizeResponse.data).error).toBe(
+                "INVALID_CLIENT_ID"
             );
         });
     });

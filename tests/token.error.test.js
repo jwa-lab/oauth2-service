@@ -46,7 +46,7 @@ describe("Given Auth Service is connected to NATS", () => {
                 "auth-service.token",
                 jsonCodec.encode({
                     grant_type: "authorization_code",
-                    code: authorizeResponse.code,
+                    code: "INVALID_AUTHORIZATION_CODE",
                     redirect_uri: authorizeResponse.redirect_uri,
                     client_id: TEST_APP.AUTH_SERVICE_CLIENT_ID,
                     client_secret: TEST_APP.AUTH_SERVICE_CLIENT_SECRET
@@ -56,7 +56,7 @@ describe("Given Auth Service is connected to NATS", () => {
         });
 
         it("Then returns an error.", () => {
-            expect(jsonCodec.decode(authorizeResponse.data).error.message).toBe(
+            expect(jsonCodec.decode(authorizeResponse.data).error).toBe(
                 "INVALID_PARAMETERS"
             );
         });

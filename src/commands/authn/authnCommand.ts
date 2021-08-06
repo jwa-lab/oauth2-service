@@ -11,11 +11,11 @@ export default class AuthnCommand implements AuthnInterface {
         const { username, password } = data as AuthnInterface;
 
         if (typeof username !== "string") {
-            throw new Error("Invalid username");
+            throw new Error("INVALID_USERNAME");
         }
 
         if (typeof password !== "string") {
-            throw new Error("Invalid password");
+            throw new Error("INVALID_PASSWORD");
         }
 
         this.username = username;
