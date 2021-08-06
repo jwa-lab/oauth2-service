@@ -57,7 +57,10 @@ export const authnPrivateHandlers: PrivateNatsHandler[] = [
                 } catch (err) {
                     message.respond(
                         jsonCodec.encode({
-                            error: err?.response?.status === 401 ? "AUTHENTICATION_FAILED" : err.message
+                            error:
+                                err?.response?.status === 401
+                                    ? "AUTHENTICATION_FAILED"
+                                    : err.message
                         })
                     );
                 }

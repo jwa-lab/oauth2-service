@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import AuthorizeCommand from "../commands/authorize/authorizeCommand";
 import { AUTHORIZE_ENDPOINT, INTERNAL_REDIRECT_URI } from "../config";
-import ConnectorInterface, { ConnectorResponse } from "../network/config/connector";
+import ConnectorInterface, {
+    ConnectorResponse
+} from "../network/config/connector";
 
 interface AuthorizeServiceInterface {
     authorize: (

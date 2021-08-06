@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import ConnectorInterface, { ConnectorConfigInterface } from "./config/connector";
+import ConnectorInterface, {
+    ConnectorConfigInterface
+} from "./config/connector";
 
 export default class AxiosConnector implements ConnectorInterface {
     public async get(

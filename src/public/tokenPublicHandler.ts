@@ -1,6 +1,11 @@
 import { Subscription } from "nats";
 import { HANDLERS_SUBJECTS, SERVICE_NAME } from "../config";
-import { AirlockPayload, getConnection, jsonCodec, PublicNatsHandler } from "../nats/nats";
+import {
+    AirlockPayload,
+    getConnection,
+    jsonCodec,
+    PublicNatsHandler
+} from "../nats/nats";
 
 export const tokenPublicHandlers: PublicNatsHandler[] = [
     [

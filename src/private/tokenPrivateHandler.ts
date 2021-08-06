@@ -86,7 +86,10 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
                 } catch (err) {
                     message.respond(
                         jsonCodec.encode({
-                            error: err.response?.status === 400 ? "INVALID_PARAMETERS" : err.message
+                            error:
+                                err.response?.status === 400
+                                    ? "INVALID_PARAMETERS"
+                                    : err.message
                         })
                     );
                 }

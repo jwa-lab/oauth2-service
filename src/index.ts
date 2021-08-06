@@ -1,5 +1,10 @@
 import { SERVICE_NAME } from "./config";
-import { drain, init as initNats, registerPrivateHandlers, registerPublicHandlers } from "./nats/nats";
+import {
+    drain,
+    init as initNats,
+    registerPrivateHandlers,
+    registerPublicHandlers
+} from "./nats/nats";
 import { authnPrivateHandlers } from "./private/authnPrivateHandler";
 import { authorizePrivateHandlers } from "./private/authorizePrivateHandler";
 import { sessionPrivateHandlers } from "./private/sessionPrivateHandler";
