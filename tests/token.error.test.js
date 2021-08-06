@@ -56,7 +56,7 @@ describe("Given Auth Service is connected to NATS", () => {
         });
 
         it("Then returns an error.", () => {
-            expect(jsonCodec.decode(authorizeResponse.data).error).toBe(
+            expect(jsonCodec.decode(tokenResponse.data).error).toBe(
                 "INVALID_PARAMETERS"
             );
         });

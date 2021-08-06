@@ -44,7 +44,6 @@ describe("Given Auth Service is connected to NATS", () => {
             authorizeResponse = await natsConnection.request(
                 "auth-service.authorize",
                 jsonCodec.encode({
-                    client_id: "",
                     ...APP_CONFIG
                 }),
                 { timeout: 6000, headers: natsHeaders }
