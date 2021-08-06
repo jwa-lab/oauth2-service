@@ -26,7 +26,6 @@ describe("Given Auth Service is connected to NATS", () => {
         });
 
         it("Then returns an authentication error", () => {
-            console.log(jsonCodec.decode(response.data))
             expect(jsonCodec.decode(response.data).error).toBe(
                 "AUTHENTICATION_FAILED"
             );
@@ -41,7 +40,7 @@ describe("Given Auth Service is connected to NATS", () => {
             response = await natsConnection.request(
                 "auth-service.authn",
                 jsonCodec.encode({
-                    username: "",
+                    username: 1234,
                     password: "SAMPLE_PASSWORD"
                 }),
                 { timeout: JEST_TIMEOUT }
@@ -49,7 +48,6 @@ describe("Given Auth Service is connected to NATS", () => {
         });
 
         it("Then returns an username error", () => {
-            console.log(jsonCodec.decode(response.data))
             expect(jsonCodec.decode(response.data).error).toBe(
                 "INVALID_USERNAME"
             );
@@ -65,14 +63,13 @@ describe("Given Auth Service is connected to NATS", () => {
                 "auth-service.authn",
                 jsonCodec.encode({
                     username: "SAMPLE_USERNAME",
-                    password: ""
+                    password: undefined
                 }),
                 { timeout: JEST_TIMEOUT }
             );
         });
 
         it("Then returns an username error", () => {
-            console.log(jsonCodec.decode(response.data))
             expect(jsonCodec.decode(response.data).error).toBe(
                 "INVALID_PASSWORD"
             );
