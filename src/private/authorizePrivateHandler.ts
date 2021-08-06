@@ -21,7 +21,8 @@ export const authorizePrivateHandlers: PrivateNatsHandler[] = [
                 try {
                     const data = deserialize<AuthorizeCommand>(
                         message.data,
-                        AuthorizeCommand
+                        AuthorizeCommand,
+                        message?.headers
                     );
                     const authorizeCommand = new AuthorizeCommand(data);
                     const authorizeResponse = (await authorizeService.authorize(

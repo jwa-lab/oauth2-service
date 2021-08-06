@@ -3,7 +3,8 @@ import {
     NatsConnection,
     Subscription,
     JSONCodec,
-    SubscriptionOptions
+    SubscriptionOptions,
+    MsgHdrs
 } from "nats";
 import { NATS_URL, SERVICE_NAME } from "../config";
 
@@ -35,11 +36,12 @@ export interface AirlockPayload {
 
 export function deserialize<T>(
     serialized: Uint8Array,
-    deserializer: { new (data: unknown): T }
+    deserializer: { new (data: unknown): T },
+    headers?: MsgHdrs
 ): T {
-    const deserialized = jsonCodec.decode(serialized);
+    const deserialized = jsonCodec.decode(serialized) as Record<never, unknown>;
 
-    return new deserializer(deserialized);
+    return new deserializer({ ...deserialized, ...headers });
 }
 
 let natsConnection: NatsConnection;

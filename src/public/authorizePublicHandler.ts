@@ -13,15 +13,10 @@ export const authorizePublicHandlers: PublicNatsHandler[] = [
                     const { query } = jsonCodec.decode(
                         message.data
                     ) as AirlockPayload;
-                    console.log(message.headers && message.headers.get("cookie"));
+
                     const response = await natsConnection.request(
                         `${SERVICE_NAME}.${HANDLERS_SUBJECTS.AUTHORIZE}`,
-                        jsonCodec.encode({
-                            ...(query as Record<never, unknown>),
-                            cookie:
-                                message?.headers &&
-                                message.headers.get("cookie")
-                        }),
+                        jsonCodec.encode(query),
                         { timeout: 6000 }
                     );
 
