@@ -1,22 +1,17 @@
-import {
-    drain,
-    init as initNats,
-    registerPrivateHandlers,
-    registerPublicHandlers
-} from "./nats/nats";
-import { init as initDocs } from "./services/docs";
 import { SERVICE_NAME } from "./config";
-import { tokenPrivateHandlers } from "./private/tokenPrivateHandler";
-import { tokenPublicHandlers } from "./public/tokenPublicHandler";
+import { drain, init as initNats, registerPrivateHandlers, registerPublicHandlers } from "./nats/nats";
 import { authnPrivateHandlers } from "./private/authnPrivateHandler";
-import { authnPublicHandlers } from "./public/authnPublicHandler";
-import { sessionPrivateHandlers } from "./private/sessionPrivateHandler";
-import { sessionPublicHandlers } from "./public/sessionPublicHandler";
-import { userinfoPrivateHandlers } from "./private/userinfoPrivateHandler";
-import { userinfoPublicHandlers } from "./public/userinfoPublicHandler";
 import { authorizePrivateHandlers } from "./private/authorizePrivateHandler";
-import { authorizePublicHandlers } from "./public/authorizePublicHandler";
+import { sessionPrivateHandlers } from "./private/sessionPrivateHandler";
+import { tokenPrivateHandlers } from "./private/tokenPrivateHandler";
+import { userinfoPrivateHandlers } from "./private/userinfoPrivateHandler";
+import { authnPublicHandlers } from "./public/authnPublicHandler";
 import { authorizeCodePublicHandlers } from "./public/authorizeCodePublicHandler";
+import { authorizePublicHandlers } from "./public/authorizePublicHandler";
+import { sessionPublicHandlers } from "./public/sessionPublicHandler";
+import { tokenPublicHandlers } from "./public/tokenPublicHandler";
+import { userinfoPublicHandlers } from "./public/userinfoPublicHandler";
+import { init as initDocs } from "./services/docs";
 
 async function start() {
     async function shutdown(exitCode: number): Promise<void> {

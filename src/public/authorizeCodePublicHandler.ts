@@ -1,6 +1,6 @@
 import { Subscription } from "nats";
-import { AirlockPayload, jsonCodec, PublicNatsHandler } from "../nats/nats";
 import { HANDLERS_SUBJECTS } from "../config";
+import { AirlockPayload, jsonCodec, PublicNatsHandler } from "../nats/nats";
 
 interface AuthorizeCodeInterface {
     code: string;

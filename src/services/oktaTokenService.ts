@@ -1,10 +1,8 @@
 import qs from "qs";
-import ConnectorInterface, {
-    ConnectorResponse
-} from "../network/config/connector";
-import { INTERNAL_REDIRECT_URI, TOKEN_ENDPOINT } from "../config";
 import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
 import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
+import { INTERNAL_REDIRECT_URI, TOKEN_ENDPOINT } from "../config";
+import ConnectorInterface, { ConnectorResponse } from "../network/config/connector";
 
 interface TokenServiceInterface {
     refreshToken: (

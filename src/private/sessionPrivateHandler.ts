@@ -1,8 +1,8 @@
 import { Subscription } from "nats";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
-import { HANDLERS_SUBJECTS } from "../config";
 import CreateSessionCommand from "../commands/session/createSessionCommand";
+import { HANDLERS_SUBJECTS } from "../config";
 import { sessionService } from "../di.config";
+import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { ConnectorResponse } from "../network/config/connector";
 
 export interface CreateSessionResponse extends ConnectorResponse {

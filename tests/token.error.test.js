@@ -10,9 +10,11 @@ describe("Given Auth Service is connected to NATS", () => {
         natsConnection = await connect();
     });
 
-    describe("When I try to authorize a user", () => {
-        let authnResponse, authnCookie;
+    describe("When I try to get an access and refresh token with an invalid code", () => {
+        let authnResponse;
         let authorizeResponse;
+        let tokenResponse;
+        let natsHeaders = headers();
 
         beforeAll(async () => {
             jest.setTimeout(JEST_TIMEOUT);
@@ -24,10 +26,12 @@ describe("Given Auth Service is connected to NATS", () => {
                 }),
                 { timeout: JEST_TIMEOUT }
             );
-            authnCookie = JSON.parse(authnResponse.headers.get("set-cookie"))
-                .cookies[0];
-            const natsHeaders = headers();
-            natsHeaders.append("cookie", authnCookie);
+
+            natsHeaders.append(
+                "cookie",
+                JSON.parse(authnResponse.headers.get("set-cookie")).cookies[0]
+            );
+
             authorizeResponse = await natsConnection.request(
                 "auth-service.authorize",
                 jsonCodec.encode({
@@ -36,14 +40,24 @@ describe("Given Auth Service is connected to NATS", () => {
                 }),
                 { timeout: 6000, headers: natsHeaders }
             );
+            authorizeResponse = jsonCodec.decode(authorizeResponse.data);
+
+            tokenResponse = await natsConnection.request(
+                "auth-service.token",
+                jsonCodec.encode({
+                    grant_type: "authorization_code",
+                    code: authorizeResponse.code,
+                    redirect_uri: authorizeResponse.redirect_uri,
+                    client_id: TEST_APP.AUTH_SERVICE_CLIENT_ID,
+                    client_secret: TEST_APP.AUTH_SERVICE_CLIENT_SECRET
+                }),
+                { timeout: 5000 }
+            );
         });
 
-        it("Then returns an authorization and the given redirect uri.", () => {
-            expect(jsonCodec.decode(authorizeResponse.data)).toEqual(
-                expect.objectContaining({
-                    code: expect.any(String),
-                    redirect_uri: expect.any(String)
-                })
+        it("Then returns an error.", () => {
+            expect(jsonCodec.decode(authorizeResponse.data).error.message).toBe(
+                "INVALID_PARAMETERS"
             );
         });
     });

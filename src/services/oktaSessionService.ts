@@ -1,8 +1,6 @@
-import ConnectorInterface, {
-    ConnectorResponse
-} from "../network/config/connector";
-import { SESSIONS_ENDPOINT } from "../config";
 import CreateSessionCommand from "../commands/session/createSessionCommand";
+import { SESSIONS_ENDPOINT } from "../config";
+import ConnectorInterface, { ConnectorResponse } from "../network/config/connector";
 
 interface SessionServiceInterface {
     createSession: (

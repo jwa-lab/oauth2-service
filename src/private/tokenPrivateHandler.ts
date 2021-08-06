@@ -1,9 +1,9 @@
 import { Subscription } from "nats";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
-import { HANDLERS_SUBJECTS } from "../config";
-import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
 import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
+import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
+import { HANDLERS_SUBJECTS } from "../config";
 import { tokenService } from "../di.config";
+import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { ConnectorResponse } from "../network/config/connector";
 
 interface TokenInterface {
@@ -44,7 +44,7 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
 
                 try {
                     if (!data?.grant_type) {
-                        throw new Error("Missing grant_type.");
+                        throw new Error("GRANT_TYPE_MISSING");
                     }
 
                     switch (data.grant_type) {
@@ -75,7 +75,7 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
                                 )) as ExchangeTokenResponse;
                             break;
                         default:
-                            throw new Error("Unsupported grant_type.");
+                            throw new Error("UNSUPPORTED_GRANT_TYPE");
                     }
 
                     message.respond(
@@ -86,7 +86,7 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
                 } catch (err) {
                     message.respond(
                         jsonCodec.encode({
-                            error: err.message
+                            error: err.response?.status === 400 ? "INVALID_PARAMETERS" : err.message
                         })
                     );
                 }

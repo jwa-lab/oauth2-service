@@ -1,11 +1,11 @@
 import { headers, Subscription } from "nats";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
-import { HANDLERS_SUBJECTS } from "../config";
 import AuthnCommand from "../commands/authn/authnCommand";
 import CreateSessionCommand from "../commands/session/createSessionCommand";
+import { HANDLERS_SUBJECTS } from "../config";
 import { authnService, sessionService } from "../di.config";
-import { CreateSessionResponse } from "./sessionPrivateHandler";
+import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { ConnectorResponse } from "../network/config/connector";
+import { CreateSessionResponse } from "./sessionPrivateHandler";
 
 interface AuthnResponseInterface extends ConnectorResponse {
     data: {
@@ -57,7 +57,7 @@ export const authnPrivateHandlers: PrivateNatsHandler[] = [
                 } catch (err) {
                     message.respond(
                         jsonCodec.encode({
-                            error: err.message
+                            error: err?.response?.status === 401 ? "AUTHENTICATION_FAILED" : err.message
                         })
                     );
                 }

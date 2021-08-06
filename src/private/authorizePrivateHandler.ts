@@ -1,8 +1,8 @@
 import { Subscription } from "nats";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
+import AuthorizeCommand from "../commands/authorize/authorizeCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { authorizeService } from "../di.config";
-import AuthorizeCommand from "../commands/authorize/authorizeCommand";
+import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
 import { ConnectorResponse } from "../network/config/connector";
 
 interface AuthorizeResponseInterface extends ConnectorResponse {
@@ -32,7 +32,11 @@ export const authorizePrivateHandlers: PrivateNatsHandler[] = [
                     if (
                         authorizeResponse.data.state !== authorizeCommand.state
                     ) {
-                        throw new Error("Invalid state.");
+                        throw new Error("INVALID_STATE");
+                    }
+
+                    if (!authorizeResponse.data?.code) {
+                        throw new Error("EXPIRED_OR_INVALID_COOKIE");
                     }
 
                     message.respond(

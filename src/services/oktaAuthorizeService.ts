@@ -1,8 +1,7 @@
-import ConnectorInterface, {
-    ConnectorResponse
-} from "../network/config/connector";
-import { AUTHORIZE_ENDPOINT, INTERNAL_REDIRECT_URI } from "../config";
+import { v4 as uuidv4 } from "uuid";
 import AuthorizeCommand from "../commands/authorize/authorizeCommand";
+import { AUTHORIZE_ENDPOINT, INTERNAL_REDIRECT_URI } from "../config";
+import ConnectorInterface, { ConnectorResponse } from "../network/config/connector";
 
 interface AuthorizeServiceInterface {
     authorize: (
@@ -26,6 +25,7 @@ export default class OktaAuthorizeService implements AuthorizeServiceInterface {
     ): Promise<ConnectorResponse> {
         const { state, client_id, scope, cookie, sessionToken } =
             authorizeCommand;
+
         const parameters = {
             client_id: client_id,
             redirect_uri: INTERNAL_REDIRECT_URI,
@@ -33,7 +33,7 @@ export default class OktaAuthorizeService implements AuthorizeServiceInterface {
             scope: scope,
             prompt: "none",
             state: state,
-            nonce: "RandomNonce",
+            nonce: uuidv4(),
             ...(sessionToken && { sessionToken: sessionToken })
         };
 

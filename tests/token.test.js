@@ -1,5 +1,5 @@
-const { APP_CONFIG, TEST_APP, TEST_USER } = require("./config/config");
 const { connect, JSONCodec, headers } = require("nats");
+const { APP_CONFIG, TEST_APP, TEST_USER } = require("./config/config");
 const { JEST_TIMEOUT = 20000 } = process.env;
 
 describe("Given Auth Service is connected to NATS", () => {
