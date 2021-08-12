@@ -29,7 +29,7 @@ describe("Given Auth Service is connected to NATS", () => {
 
         it("Then returns an error", () => {
             expect(jsonCodec.decode(authorizeResponse.data).error).toBe(
-                "EXPIRED_OR_INVALID_COOKIE"
+                "REQUEST_ERROR"
             );
         });
     });
