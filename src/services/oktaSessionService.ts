@@ -30,6 +30,9 @@ export default class OktaSessionService implements SessionServiceInterface {
             sessionToken
         };
 
-        return this.restConnector.post(SESSIONS_ENDPOINT, payload) as Promise<CreateSessionResponse>;
+        return this.restConnector.post(
+            SESSIONS_ENDPOINT,
+            payload
+        ) as Promise<CreateSessionResponse>;
     }
 }

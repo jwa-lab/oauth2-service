@@ -5,7 +5,10 @@ import { INTERNAL_REDIRECT_URI, TOKEN_ENDPOINT } from "../config";
 import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
-import { ExchangeTokenResponse, RefreshTokenResponse } from "../private/tokenPrivateHandler";
+import {
+    ExchangeTokenResponse,
+    RefreshTokenResponse
+} from "../private/tokenPrivateHandler";
 
 interface TokenServiceInterface {
     refreshToken: (
@@ -50,7 +53,10 @@ export default class OktaTokenService implements TokenServiceInterface {
             ...(scope && { scope: scope })
         };
 
-        return this.postToken(payload, basic_auth) as Promise<RefreshTokenResponse>;
+        return this.postToken(
+            payload,
+            basic_auth
+        ) as Promise<RefreshTokenResponse>;
     }
 
     public async exchangeAuthorizationCode(

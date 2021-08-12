@@ -25,9 +25,9 @@ export const userinfoPrivateHandlers: PrivateNatsHandler[] = [
                         bearerToken: headers.get("authorization")
                     });
 
-                    const userinfoResponse = (await userinfoService.userinfo(
+                    const userinfoResponse = await userinfoService.userinfo(
                         userinfoCommand
-                    ));
+                    );
 
                     message.respond(
                         jsonCodec.encode({

@@ -2,7 +2,11 @@ import { Subscription } from "nats";
 import AuthorizeCommand from "../commands/authorize/authorizeCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { authorizeService } from "../di.config";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../services/natsService";
+import {
+    deserialize,
+    jsonCodec,
+    PrivateNatsHandler
+} from "../services/natsService";
 import { ConnectorResponse } from "../network/config/connector";
 
 export interface AuthorizeResponseInterface extends ConnectorResponse {
@@ -25,9 +29,9 @@ export const authorizePrivateHandlers: PrivateNatsHandler[] = [
                         message?.headers
                     );
                     const authorizeCommand = new AuthorizeCommand(data);
-                    const authorizeResponse = (await authorizeService.authorize(
+                    const authorizeResponse = await authorizeService.authorize(
                         authorizeCommand
-                    ));
+                    );
 
                     if (
                         authorizeResponse.data.state !== authorizeCommand.state

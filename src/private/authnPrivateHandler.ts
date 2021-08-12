@@ -4,7 +4,11 @@ import CreateSessionCommand from "../commands/session/createSessionCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { authnService, sessionService } from "../di.config";
 import { ConnectorResponse } from "../network/config/connector";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../services/natsService";
+import {
+    deserialize,
+    jsonCodec,
+    PrivateNatsHandler
+} from "../services/natsService";
 
 export interface AuthnResponseInterface extends ConnectorResponse {
     data: {
@@ -25,9 +29,9 @@ export const authnPrivateHandlers: PrivateNatsHandler[] = [
                     const responseHeaders = headers();
 
                     const authnCommand = new AuthnCommand(data);
-                    const authnResponse = (await authnService.authn(
+                    const authnResponse = await authnService.authn(
                         authnCommand
-                    ));
+                    );
 
                     const createSessionCommand = new CreateSessionCommand({
                         sessionToken: authnResponse.data?.sessionToken

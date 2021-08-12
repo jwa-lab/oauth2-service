@@ -3,7 +3,11 @@ import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
 import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { tokenService } from "../di.config";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../services/natsService";
+import {
+    deserialize,
+    jsonCodec,
+    PrivateNatsHandler
+} from "../services/natsService";
 import { ConnectorResponse } from "../network/config/connector";
 
 interface TokenInterface {
@@ -56,9 +60,9 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
                             refreshTokenCommand = new RefreshTokenCommand(
                                 refreshTokenData
                             );
-                            tokenResponse = (await tokenService.refreshToken(
+                            tokenResponse = await tokenService.refreshToken(
                                 refreshTokenCommand
-                            ));
+                            );
                             break;
                         case "authorization_code":
                             exchangeTokenData =
@@ -70,9 +74,9 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
                                 exchangeTokenData
                             );
                             tokenResponse =
-                                (await tokenService.exchangeAuthorizationCode(
+                                await tokenService.exchangeAuthorizationCode(
                                     exchangeCodeCommand
-                                ));
+                                );
                             break;
                         default:
                             throw new Error("UNSUPPORTED_GRANT_TYPE");

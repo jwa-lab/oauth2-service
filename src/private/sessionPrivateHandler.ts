@@ -2,7 +2,11 @@ import { Subscription } from "nats";
 import CreateSessionCommand from "../commands/session/createSessionCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { sessionService } from "../di.config";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../services/natsService";
+import {
+    deserialize,
+    jsonCodec,
+    PrivateNatsHandler
+} from "../services/natsService";
 import { ConnectorResponse } from "../network/config/connector";
 
 export interface CreateSessionResponse extends ConnectorResponse {
@@ -22,9 +26,9 @@ export const sessionPrivateHandlers: PrivateNatsHandler[] = [
                         CreateSessionCommand
                     );
                     const createSessionCommand = new CreateSessionCommand(data);
-                    const sessionResponse = (await sessionService.createSession(
+                    const sessionResponse = await sessionService.createSession(
                         createSessionCommand
-                    ));
+                    );
 
                     message.respond(
                         jsonCodec.encode({
