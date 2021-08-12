@@ -10,13 +10,13 @@ An OAuth2.0 interface to authenticate users from the Okta's Playtix organization
 
 Required environment variable :
 
--   NATS*URL - \_Nats server url*
--   INTERNAL*REDIRECT_URI - \_Intermediate redirect url for the OAuth2.0 provider's authorization code, should be the current service url*
--   TOKEN*ENDPOINT - \_OAuth2.0 provider **/token** endpoint*
--   USERINFO*ENDPOINT - \_OAuth2.0 provider **/userinfo** endpoint (if any)*
--   AUTHORIZE*ENDPOINT - \_OAuth2.0 provider **/authorize** endpoint*
--   AUTHN*ENDPOINT - \_OAuth2.0 provider **/authn** endpoint*
--   SESSIONS*ENDPOINT - - \_OAuth2.0 provider **/sessions** endpoint*
+-   NATS_URL - *Nats server url*
+-   INTERNAL_REDIRECT_URI - *Intermediate redirect url for the OAuth2.0 provider's authorization code, should be the current service url*
+-   TOKEN_ENDPOINT - *OAuth2.0 provider **/token** endpoint*
+-   USERINFO_ENDPOINT - *OAuth2.0 provider **/userinfo** endpoint (if any)*
+-   AUTHORIZE_ENDPOINT - *OAuth2.0 provider **/authorize** endpoint*
+-   AUTHN_ENDPOINT - *OAuth2.0 provider **/authn** endpoint*
+-   SESSIONS_ENDPOINT - *OAuth2.0 provider **/sessions** endpoint*
 
 For testing purposes, the required environment variables are configured for
 the Okta's Playtix organization in the run file.
