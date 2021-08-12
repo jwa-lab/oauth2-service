@@ -10,14 +10,14 @@ const {
     SESSIONS_ENDPOINT = ""
 } = process.env;
 
-const HANDLERS_SUBJECTS = {
-    TOKEN: "token",
-    AUTHN: "authn",
-    SESSION: "sessions",
-    USERINFO: "userinfo",
-    AUTHORIZE: "authorize",
-    AUTHORIZE_CODE: "authorize_code"
-};
+enum HANDLERS_SUBJECTS {
+    TOKEN = "token",
+    AUTHN = "authn",
+    SESSION = "sessions",
+    USERINFO = "userinfo",
+    AUTHORIZE = "authorize",
+    AUTHORIZE_CODE = "authorize_code"
+}
 
 if (!NATS_URL) {
     throw new Error(

@@ -36,7 +36,7 @@ export interface AirlockPayload {
 
 export function deserialize<T>(
     serialized: Uint8Array,
-    deserializer: { new (data: unknown): T },
+    deserializer: { new (data: Record<string, never>): T },
     headers?: MsgHdrs
 ): T {
     const deserialized = jsonCodec.decode(serialized) as Record<never, unknown>;

@@ -1,16 +1,16 @@
 interface ExchangeTokenInterface {
     grant_type: string;
-    redirect_uri?: string | undefined;
     client_id: string;
     client_secret: string;
     code: string;
+    redirect_uri?: string;
 }
 export default class ExchangeTokenCommand implements ExchangeTokenInterface {
     readonly grant_type: string;
     readonly client_id: string;
     readonly client_secret: string;
     readonly code: string;
-    readonly redirect_uri: string | undefined;
+    readonly redirect_uri?: string;
 
     constructor(data: unknown) {
         const { grant_type, client_id, client_secret, code, redirect_uri } =

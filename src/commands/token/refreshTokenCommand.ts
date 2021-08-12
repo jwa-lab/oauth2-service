@@ -2,14 +2,14 @@ interface RefreshTokenInterface {
     grant_type: string;
     refresh_token: string;
     basic_auth: string;
-    scope?: string | undefined;
+    scope?: string;
 }
 
 export default class RefreshTokenCommand implements RefreshTokenInterface {
     readonly grant_type: string;
     readonly refresh_token: string;
     readonly basic_auth: string;
-    readonly scope?: string | undefined;
+    readonly scope?: string;
 
     constructor(data: unknown) {
         const { grant_type, refresh_token, basic_auth, scope } =

@@ -1,6 +1,6 @@
 import fs from "fs";
 import { SERVICE_NAME } from "../config";
-import { getConnection, jsonCodec } from "../nats/nats";
+import { getConnection, jsonCodec } from "./natsService";
 
 export async function init(): Promise<void> {
     const docs = String(fs.readFileSync("./docs/oas-docs.json"));

@@ -4,6 +4,7 @@ import { AUTHORIZE_ENDPOINT, INTERNAL_REDIRECT_URI } from "../config";
 import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
+import { AuthorizeResponseInterface } from "../private/authorizePrivateHandler";
 
 interface AuthorizeServiceInterface {
     authorize: (
@@ -24,7 +25,7 @@ export default class OktaAuthorizeService implements AuthorizeServiceInterface {
 
     public async authorize(
         authorizeCommand: AuthorizeCommand
-    ): Promise<ConnectorResponse> {
+    ): Promise<AuthorizeResponseInterface> {
         const { state, client_id, scope, cookie, sessionToken } =
             authorizeCommand;
 
@@ -43,6 +44,6 @@ export default class OktaAuthorizeService implements AuthorizeServiceInterface {
             headers: {
                 ...(cookie && { cookie: cookie })
             }
-        });
+        }) as Promise<AuthorizeResponseInterface>;
     }
 }

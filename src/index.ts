@@ -4,7 +4,7 @@ import {
     init as initNats,
     registerPrivateHandlers,
     registerPublicHandlers
-} from "./nats/nats";
+} from "./services/natsService";
 import { authnPrivateHandlers } from "./private/authnPrivateHandler";
 import { authorizePrivateHandlers } from "./private/authorizePrivateHandler";
 import { sessionPrivateHandlers } from "./private/sessionPrivateHandler";
@@ -16,7 +16,7 @@ import { authorizePublicHandlers } from "./public/authorizePublicHandler";
 import { sessionPublicHandlers } from "./public/sessionPublicHandler";
 import { tokenPublicHandlers } from "./public/tokenPublicHandler";
 import { userinfoPublicHandlers } from "./public/userinfoPublicHandler";
-import { init as initDocs } from "./services/docs";
+import { init as initDocs } from "./services/docsService";
 
 async function start() {
     async function shutdown(exitCode: number): Promise<void> {

@@ -5,6 +5,7 @@ import { INTERNAL_REDIRECT_URI, TOKEN_ENDPOINT } from "../config";
 import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
+import { ExchangeTokenResponse, RefreshTokenResponse } from "../private/tokenPrivateHandler";
 
 interface TokenServiceInterface {
     refreshToken: (
@@ -40,7 +41,7 @@ export default class OktaTokenService implements TokenServiceInterface {
 
     public async refreshToken(
         refreshTokenCommand: RefreshTokenCommand
-    ): Promise<ConnectorResponse> {
+    ): Promise<RefreshTokenResponse> {
         const { scope, refresh_token, grant_type, basic_auth } =
             refreshTokenCommand;
         const payload = {
@@ -49,12 +50,12 @@ export default class OktaTokenService implements TokenServiceInterface {
             ...(scope && { scope: scope })
         };
 
-        return this.postToken(payload, basic_auth);
+        return this.postToken(payload, basic_auth) as Promise<RefreshTokenResponse>;
     }
 
     public async exchangeAuthorizationCode(
         exchangeTokenCommand: ExchangeTokenCommand
-    ): Promise<ConnectorResponse> {
+    ): Promise<ExchangeTokenResponse> {
         const { client_id, client_secret, grant_type, code } =
             exchangeTokenCommand;
         const payload = {
@@ -65,6 +66,6 @@ export default class OktaTokenService implements TokenServiceInterface {
             code: code
         };
 
-        return this.postToken(payload);
+        return this.postToken(payload) as Promise<ExchangeTokenResponse>;
     }
 }

@@ -5,7 +5,7 @@ import {
     getConnection,
     jsonCodec,
     PublicNatsHandler
-} from "../nats/nats";
+} from "../services/natsService";
 
 export const authnPublicHandlers: PublicNatsHandler[] = [
     [
@@ -37,6 +37,9 @@ export const authnPublicHandlers: PublicNatsHandler[] = [
                     );
                 }
             }
+        },
+        {
+            queue: SERVICE_NAME
         }
     ]
 ];

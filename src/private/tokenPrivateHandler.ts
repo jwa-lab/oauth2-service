@@ -3,7 +3,7 @@ import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
 import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { tokenService } from "../di.config";
-import { deserialize, jsonCodec, PrivateNatsHandler } from "../nats/nats";
+import { deserialize, jsonCodec, PrivateNatsHandler } from "../services/natsService";
 import { ConnectorResponse } from "../network/config/connector";
 
 interface TokenInterface {
@@ -17,7 +17,7 @@ interface TokenInterface {
     basic_auth: string;
 }
 
-interface ExchangeTokenResponse extends ConnectorResponse {
+export interface ExchangeTokenResponse extends ConnectorResponse {
     data: {
         access_token: string;
         refresh_token: string;
@@ -25,7 +25,7 @@ interface ExchangeTokenResponse extends ConnectorResponse {
     };
 }
 
-interface RefreshTokenResponse extends ConnectorResponse {
+export interface RefreshTokenResponse extends ConnectorResponse {
     data: {
         access_token: string;
         refresh_token?: string;
@@ -58,7 +58,7 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
                             );
                             tokenResponse = (await tokenService.refreshToken(
                                 refreshTokenCommand
-                            )) as RefreshTokenResponse;
+                            ));
                             break;
                         case "authorization_code":
                             exchangeTokenData =
@@ -72,7 +72,7 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
                             tokenResponse =
                                 (await tokenService.exchangeAuthorizationCode(
                                     exchangeCodeCommand
-                                )) as ExchangeTokenResponse;
+                                ));
                             break;
                         default:
                             throw new Error("UNSUPPORTED_GRANT_TYPE");

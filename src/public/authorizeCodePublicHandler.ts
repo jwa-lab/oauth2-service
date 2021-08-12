@@ -1,6 +1,6 @@
 import { Subscription } from "nats";
-import { HANDLERS_SUBJECTS } from "../config";
-import { AirlockPayload, jsonCodec, PublicNatsHandler } from "../nats/nats";
+import { HANDLERS_SUBJECTS, SERVICE_NAME } from "../config";
+import { AirlockPayload, jsonCodec, PublicNatsHandler } from "../services/natsService";
 
 interface AuthorizeCodeInterface {
     code: string;
@@ -34,6 +34,9 @@ export const authorizeCodePublicHandlers: PublicNatsHandler[] = [
                     );
                 }
             }
+        },
+        {
+            queue: SERVICE_NAME
         }
     ]
 ];

@@ -3,8 +3,8 @@ interface AuthorizeInterface {
     client_id: string;
     redirect_uri: string;
     scope: string;
-    cookie?: string | undefined;
-    sessionToken?: string | undefined;
+    cookie?: string;
+    sessionToken?: string;
 }
 
 export default class AuthorizeCommand implements AuthorizeInterface {
