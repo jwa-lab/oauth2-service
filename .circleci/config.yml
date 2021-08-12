@@ -6,7 +6,7 @@ jobs:
         executor: node/default
         steps:
             - checkout
-            - run: npm ci
+            - run: npm install
             - run: npm run lint
     test:
         machine:
