@@ -8,7 +8,6 @@ jobs:
           tag: '16.6'
         steps:
             - checkout
-            - run: npm --version
             - run: npm install
             - run: npm run lint
     test:
@@ -19,6 +18,8 @@ jobs:
             - run:
                   command: docker-compose up
                   background: true
+            - run: nvm ls
+            - run: npm --version
             - run: npm ci
             - run: npm run build
             - run:
