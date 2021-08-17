@@ -28,7 +28,6 @@ export default class OktaAuthorizeService implements AuthorizeServiceInterface {
     ): Promise<AuthorizeResponseInterface> {
         const { state, client_id, scope, cookie, sessionToken } =
             authorizeCommand;
-
         const parameters = {
             client_id: client_id,
             redirect_uri: INTERNAL_REDIRECT_URI,
