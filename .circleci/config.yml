@@ -3,7 +3,7 @@ orbs:
     node: circleci/node@4.7.0
 jobs:
     lint:
-        image: cimg/node:16.6.2
+        image: node/default
         steps:
             - checkout
             - run: npm install
