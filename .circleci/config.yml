@@ -3,10 +3,12 @@ orbs:
     node: circleci/node@4.7.0
 jobs:
     lint:
-        image: node/default
+        executor:
+          name: node/default
+          tag: 14
         steps:
             - checkout
-            - run: npm install
+            - run: npm ci
             - run: npm run lint
     test:
         machine:
