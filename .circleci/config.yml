@@ -5,7 +5,7 @@ jobs:
     lint:
         executor:
           name: node/default
-          tag: '14'
+          tag: '14.17'
         steps:
             - checkout
             - run: npm ci
