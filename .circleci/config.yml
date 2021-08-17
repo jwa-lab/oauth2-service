@@ -5,9 +5,10 @@ jobs:
     lint:
         executor:
           name: node/default
-          tag: '14.17'
+          tag: '16.6'
         steps:
             - checkout
+            - run: npm --version
             - run: npm install
             - run: npm run lint
     test:
