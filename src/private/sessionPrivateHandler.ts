@@ -1,5 +1,5 @@
 import { Subscription } from "nats";
-import CreateSessionCommand from "../commands/session/createSessionCommand";
+import CreateSessionCommand from "../commands/createSessionCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { sessionService } from "../di.config";
 import {

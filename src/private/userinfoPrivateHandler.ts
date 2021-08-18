@@ -1,5 +1,5 @@
 import { Subscription } from "nats";
-import UserinfoCommand from "../commands/userinfo/userinfoCommand";
+import UserinfoCommand from "../commands/userinfoCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { userinfoService } from "../di.config";
 import { jsonCodec, PrivateNatsHandler } from "../services/natsService";

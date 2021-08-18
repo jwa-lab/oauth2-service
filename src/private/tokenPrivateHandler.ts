@@ -1,6 +1,6 @@
 import { Subscription } from "nats";
-import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
-import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
+import ExchangeTokenCommand from "../commands/exchangeTokenCommand";
+import RefreshTokenCommand from "../commands/refreshTokenCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { tokenService } from "../di.config";
 import {

@@ -1,6 +1,6 @@
 import qs from "qs";
-import ExchangeTokenCommand from "../commands/token/exchangeTokenCommand";
-import RefreshTokenCommand from "../commands/token/refreshTokenCommand";
+import ExchangeTokenCommand from "../commands/exchangeTokenCommand";
+import RefreshTokenCommand from "../commands/refreshTokenCommand";
 import { INTERNAL_REDIRECT_URI, TOKEN_ENDPOINT } from "../config";
 import ConnectorInterface, {
     ConnectorResponse

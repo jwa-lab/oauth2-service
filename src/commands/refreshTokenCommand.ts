@@ -11,9 +11,9 @@ export default class RefreshTokenCommand implements RefreshTokenInterface {
     readonly basic_auth: string;
     readonly scope?: string;
 
-    constructor(data: unknown) {
+    constructor(data: Record<string, unknown>) {
         const { grant_type, refresh_token, basic_auth, scope } =
-            data as RefreshTokenInterface;
+            data;
 
         if (typeof grant_type !== "string") {
             throw new Error("INVALID_GRANT_TYPE");
@@ -31,11 +31,12 @@ export default class RefreshTokenCommand implements RefreshTokenInterface {
             if (typeof scope !== "string") {
                 throw new Error("INVALID_SCOPE");
             }
+
+            this.scope = scope;
         }
 
         this.grant_type = grant_type;
         this.refresh_token = refresh_token;
         this.basic_auth = basic_auth;
-        this.scope = scope;
     }
 }

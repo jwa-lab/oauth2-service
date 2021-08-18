@@ -1,4 +1,4 @@
-import CreateSessionCommand from "../commands/session/createSessionCommand";
+import CreateSessionCommand from "../commands/createSessionCommand";
 import { SESSIONS_ENDPOINT } from "../config";
 import ConnectorInterface, {
     ConnectorResponse

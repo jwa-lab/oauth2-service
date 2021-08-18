@@ -1,6 +1,6 @@
 import { headers, Subscription } from "nats";
-import AuthnCommand from "../commands/authn/authnCommand";
-import CreateSessionCommand from "../commands/session/createSessionCommand";
+import AuthnCommand from "../commands/authnCommand";
+import CreateSessionCommand from "../commands/createSessionCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { authnService, sessionService } from "../di.config";
 import { ConnectorResponse } from "../network/config/connector";

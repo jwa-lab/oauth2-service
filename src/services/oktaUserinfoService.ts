@@ -1,4 +1,4 @@
-import UserinfoCommand from "../commands/userinfo/userinfoCommand";
+import UserinfoCommand from "../commands/userinfoCommand";
 import { USERINFO_ENDPOINT } from "../config";
 import ConnectorInterface, {
     ConnectorResponse

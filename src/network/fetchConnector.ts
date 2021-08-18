@@ -8,8 +8,8 @@ import ConnectorInterface, {
 export default class FetchConnector implements ConnectorInterface {
     public async get(
         url: string,
-        params: Record<string, unknown> | undefined,
-        config: ConnectorConfigInterface | undefined
+        params?: Record<string, unknown>,
+        config?: ConnectorConfigInterface
     ): Promise<ConnectorResponse> {
         const headers = (config as ConnectorConfigInterface)?.headers || {};
         const f_params = params as unknown as Iterable<[string, string]>;

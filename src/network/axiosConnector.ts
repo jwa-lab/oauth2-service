@@ -6,8 +6,8 @@ import ConnectorInterface, {
 export default class AxiosConnector implements ConnectorInterface {
     public async get(
         url: string,
-        params: Record<string, unknown> | undefined,
-        config: ConnectorConfigInterface | undefined
+        params?: Record<string, unknown>,
+        config?: ConnectorConfigInterface
     ): Promise<never> {
         const a_config = (config as AxiosRequestConfig) || {};
 

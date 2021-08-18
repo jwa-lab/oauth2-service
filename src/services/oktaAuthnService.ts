@@ -1,4 +1,4 @@
-import AuthnCommand from "../commands/authn/authnCommand";
+import AuthnCommand from "../commands/authnCommand";
 import { AUTHN_ENDPOINT } from "../config";
 import ConnectorInterface, {
     ConnectorResponse

@@ -1,5 +1,5 @@
 import { Subscription } from "nats";
-import AuthorizeCommand from "../commands/authorize/authorizeCommand";
+import AuthorizeCommand from "../commands/authorizeCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { authorizeService } from "../di.config";
 import {

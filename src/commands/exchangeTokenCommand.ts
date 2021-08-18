@@ -12,9 +12,9 @@ export default class ExchangeTokenCommand implements ExchangeTokenInterface {
     readonly code: string;
     readonly redirect_uri?: string;
 
-    constructor(data: unknown) {
+    constructor(data: Record<string, unknown> | ExchangeTokenInterface) {
         const { grant_type, client_id, client_secret, code, redirect_uri } =
-            data as ExchangeTokenInterface;
+            data;
 
         if (typeof grant_type !== "string") {
             throw new Error("INVALID_GRANT_TYPE");
@@ -36,12 +36,13 @@ export default class ExchangeTokenCommand implements ExchangeTokenInterface {
             if (typeof redirect_uri !== "string") {
                 throw new Error("INVALID_REDIRECT_URI");
             }
+
+            this.redirect_uri = redirect_uri;
         }
 
         this.grant_type = grant_type;
         this.client_id = client_id;
         this.client_secret = client_secret;
         this.code = code;
-        this.redirect_uri = redirect_uri;
     }
 }

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import AuthorizeCommand from "../commands/authorize/authorizeCommand";
+import AuthorizeCommand from "../commands/authorizeCommand";
 import { AUTHORIZE_ENDPOINT, INTERNAL_REDIRECT_URI } from "../config";
 import ConnectorInterface, {
     ConnectorResponse

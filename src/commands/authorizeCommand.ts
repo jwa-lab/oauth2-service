@@ -12,12 +12,12 @@ export default class AuthorizeCommand implements AuthorizeInterface {
     readonly client_id: string;
     readonly redirect_uri: string;
     readonly scope: string;
-    readonly cookie?: string | undefined;
-    readonly sessionToken?: string | undefined;
+    readonly cookie?: string;
+    readonly sessionToken?: string;
 
-    constructor(data: unknown) {
+    constructor(data: Record<string, unknown> | AuthorizeInterface) {
         const { state, client_id, redirect_uri, scope, sessionToken, cookie } =
-            data as AuthorizeInterface;
+            data;
 
         if (typeof state !== "string") {
             throw new Error("INVALID_STATE");
@@ -43,19 +43,21 @@ export default class AuthorizeCommand implements AuthorizeInterface {
             if (typeof cookie !== "string") {
                 throw new Error("INVALID_COOKIE");
             }
+
+            this.cookie = cookie;
         }
 
         if (sessionToken) {
             if (typeof sessionToken !== "string") {
                 throw new Error("INVALID_SESSION_TOKEN");
             }
+
+            this.sessionToken = sessionToken;
         }
 
         this.state = state;
         this.client_id = client_id;
         this.redirect_uri = redirect_uri;
         this.scope = scope;
-        this.cookie = cookie;
-        this.sessionToken = sessionToken;
     }
 }
