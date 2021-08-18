@@ -12,10 +12,13 @@ export default class ExchangeTokenCommand implements ExchangeTokenInterface {
     readonly code: string;
     readonly redirect_uri?: string;
 
-    constructor(data: Record<string, unknown> | ExchangeTokenInterface) {
-        const { grant_type, client_id, client_secret, code, redirect_uri } =
-            data;
-
+    constructor({
+        grant_type,
+        client_id,
+        client_secret,
+        code,
+        redirect_uri
+    }: ExchangeTokenInterface) {
         if (typeof grant_type !== "string") {
             throw new Error("INVALID_GRANT_TYPE");
         }

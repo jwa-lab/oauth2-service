@@ -13,10 +13,10 @@ import {
 interface TokenServiceInterface {
     refreshToken: (
         tokenCommand: RefreshTokenCommand
-    ) => Promise<ConnectorResponse>;
+    ) => Promise<ConnectorResponse<RefreshTokenResponse>>;
     exchangeAuthorizationCode: (
         exchangeTokenCommand: ExchangeTokenCommand
-    ) => Promise<ConnectorResponse>;
+    ) => Promise<ConnectorResponse<ExchangeTokenResponse>>;
 }
 
 export default class OktaTokenService implements TokenServiceInterface {
@@ -30,48 +30,52 @@ export default class OktaTokenService implements TokenServiceInterface {
         this.restConnector = restConnector;
     }
 
-    private async postToken(
+    private async postToken<T>(
         payload: unknown,
-        basic_auth?: string
-    ): Promise<ConnectorResponse> {
-        return this.restConnector.post(TOKEN_ENDPOINT, qs.stringify(payload), {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                ...(basic_auth && { authorization: `Basic ${basic_auth}` })
+        authorization?: string
+    ): Promise<ConnectorResponse<T>> {
+        return this.restConnector.post<T>(
+            TOKEN_ENDPOINT,
+            qs.stringify(payload),
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    ...(authorization && { authorization: authorization })
+                }
             }
-        });
+        );
     }
 
-    public async refreshToken(
-        refreshTokenCommand: RefreshTokenCommand
-    ): Promise<RefreshTokenResponse> {
-        const { scope, refresh_token, grant_type, basic_auth } =
-            refreshTokenCommand;
-        const payload = {
-            grant_type: grant_type,
-            refresh_token: refresh_token,
-            ...(scope && { scope: scope })
-        };
-
-        return this.postToken(
-            payload,
-            basic_auth
-        ) as Promise<RefreshTokenResponse>;
+    public async refreshToken({
+        scope,
+        refresh_token,
+        grant_type,
+        authorization
+    }: RefreshTokenCommand): Promise<ConnectorResponse<RefreshTokenResponse>> {
+        return this.postToken<RefreshTokenResponse>(
+            {
+                grant_type,
+                refresh_token,
+                scope
+            },
+            authorization
+        );
     }
 
-    public async exchangeAuthorizationCode(
-        exchangeTokenCommand: ExchangeTokenCommand
-    ): Promise<ExchangeTokenResponse> {
-        const { client_id, client_secret, grant_type, code } =
-            exchangeTokenCommand;
-        const payload = {
-            grant_type: grant_type,
+    public async exchangeAuthorizationCode({
+        client_id,
+        client_secret,
+        grant_type,
+        code
+    }: ExchangeTokenCommand): Promise<
+        ConnectorResponse<ExchangeTokenResponse>
+    > {
+        return this.postToken<ExchangeTokenResponse>({
+            grant_type,
             redirect_uri: INTERNAL_REDIRECT_URI,
-            client_id: client_id,
-            client_secret: client_secret,
-            code: code
-        };
-
-        return this.postToken(payload) as Promise<ExchangeTokenResponse>;
+            client_id,
+            client_secret,
+            code
+        });
     }
 }

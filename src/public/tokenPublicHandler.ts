@@ -23,7 +23,7 @@ export const tokenPublicHandlers: PublicNatsHandler[] = [
                     const response = await natsConnection.request(
                         `${SERVICE_NAME}.${HANDLERS_SUBJECTS.TOKEN}`,
                         jsonCodec.encode(body),
-                        { timeout: 5000 }
+                        { timeout: 5000, headers: message.headers }
                     );
 
                     message.respond(response.data);

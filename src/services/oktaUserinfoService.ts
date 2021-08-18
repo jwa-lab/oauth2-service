@@ -6,7 +6,9 @@ import ConnectorInterface, {
 import { UserinfoResponse } from "../private/userinfoPrivateHandler";
 
 interface UserinfoServiceInterface {
-    userinfo: (userinfoCommand: UserinfoCommand) => Promise<ConnectorResponse>;
+    userinfo: (
+        userinfoCommand: UserinfoCommand
+    ) => Promise<ConnectorResponse<UserinfoResponse>>;
 }
 
 export default class OktaUserinfoService implements UserinfoServiceInterface {
@@ -22,13 +24,17 @@ export default class OktaUserinfoService implements UserinfoServiceInterface {
 
     public async userinfo(
         userinfoCommand: UserinfoCommand
-    ): Promise<UserinfoResponse> {
+    ): Promise<ConnectorResponse<UserinfoResponse>> {
         const { bearerToken } = userinfoCommand;
 
-        return this.restConnector.get(USERINFO_ENDPOINT, undefined, {
-            headers: {
-                authorization: bearerToken
+        return this.restConnector.get<UserinfoResponse>(
+            USERINFO_ENDPOINT,
+            undefined,
+            {
+                headers: {
+                    authorization: bearerToken
+                }
             }
-        }) as Promise<UserinfoResponse>;
+        );
     }
 }

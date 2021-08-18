@@ -4,12 +4,12 @@ import { AUTHORIZE_ENDPOINT, INTERNAL_REDIRECT_URI } from "../config";
 import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
-import { AuthorizeResponseInterface } from "../private/authorizePrivateHandler";
+import { AuthorizeResponse } from "../private/authorizePrivateHandler";
 
 interface AuthorizeServiceInterface {
     authorize: (
         authorizeCommand: AuthorizeCommand
-    ) => Promise<ConnectorResponse>;
+    ) => Promise<ConnectorResponse<AuthorizeResponse>>;
 }
 
 export default class OktaAuthorizeService implements AuthorizeServiceInterface {
@@ -23,26 +23,30 @@ export default class OktaAuthorizeService implements AuthorizeServiceInterface {
         this.restConnector = restConnector;
     }
 
-    public async authorize(
-        authorizeCommand: AuthorizeCommand
-    ): Promise<AuthorizeResponseInterface> {
-        const { state, client_id, scope, cookie, sessionToken } =
-            authorizeCommand;
-        const parameters = {
-            client_id: client_id,
-            redirect_uri: INTERNAL_REDIRECT_URI,
-            response_type: "code",
-            scope: scope,
-            prompt: "none",
-            state: state,
-            nonce: uuidv4(),
-            ...(sessionToken && { sessionToken: sessionToken })
-        };
-
-        return this.restConnector.get(AUTHORIZE_ENDPOINT, parameters, {
-            headers: {
-                ...(cookie && { cookie: cookie })
+    public async authorize({
+        state,
+        client_id,
+        scope,
+        cookie,
+        sessionToken
+    }: AuthorizeCommand): Promise<ConnectorResponse<AuthorizeResponse>> {
+        return this.restConnector.get<AuthorizeResponse>(
+            AUTHORIZE_ENDPOINT,
+            {
+                client_id,
+                redirect_uri: INTERNAL_REDIRECT_URI,
+                response_type: "code",
+                scope,
+                prompt: "none",
+                state,
+                nonce: uuidv4(),
+                sessionToken
+            },
+            {
+                headers: {
+                    cookie
+                }
             }
-        }) as Promise<AuthorizeResponseInterface>;
+        );
     }
 }

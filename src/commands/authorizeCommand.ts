@@ -15,10 +15,14 @@ export default class AuthorizeCommand implements AuthorizeInterface {
     readonly cookie?: string;
     readonly sessionToken?: string;
 
-    constructor(data: Record<string, unknown> | AuthorizeInterface) {
-        const { state, client_id, redirect_uri, scope, sessionToken, cookie } =
-            data;
-
+    constructor({
+        state,
+        client_id,
+        redirect_uri,
+        scope,
+        sessionToken,
+        cookie
+    }: AuthorizeInterface) {
         if (typeof state !== "string") {
             throw new Error("INVALID_STATE");
         }

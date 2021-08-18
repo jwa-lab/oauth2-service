@@ -8,7 +8,6 @@ import {
     jsonCodec,
     PrivateNatsHandler
 } from "../services/natsService";
-import { ConnectorResponse } from "../network/config/connector";
 
 interface TokenInterface {
     grant_type: string;
@@ -21,19 +20,15 @@ interface TokenInterface {
     basic_auth: string;
 }
 
-export interface ExchangeTokenResponse extends ConnectorResponse {
-    data: {
-        access_token: string;
-        refresh_token: string;
-        scope: string;
-    };
+export interface ExchangeTokenResponse {
+    access_token: string;
+    refresh_token: string;
+    scope: string;
 }
 
-export interface RefreshTokenResponse extends ConnectorResponse {
-    data: {
-        access_token: string;
-        refresh_token?: string;
-    };
+export interface RefreshTokenResponse {
+    access_token: string;
+    refresh_token?: string;
 }
 
 export const tokenPrivateHandlers: PrivateNatsHandler[] = [
@@ -43,7 +38,7 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
             for await (const message of subscription) {
                 const data = jsonCodec.decode(message.data) as TokenInterface;
                 let refreshTokenCommand, exchangeCodeCommand;
-                let refreshTokenData, exchangeTokenData;
+                let exchangeTokenData;
                 let tokenResponse;
 
                 try {
@@ -53,16 +48,17 @@ export const tokenPrivateHandlers: PrivateNatsHandler[] = [
 
                     switch (data.grant_type) {
                         case "refresh_token":
-                            refreshTokenData = deserialize<RefreshTokenCommand>(
-                                message.data,
-                                RefreshTokenCommand
-                            );
-                            refreshTokenCommand = new RefreshTokenCommand(
-                                refreshTokenData
-                            );
+                            refreshTokenCommand =
+                                deserialize<RefreshTokenCommand>(
+                                    message.data,
+                                    RefreshTokenCommand,
+                                    message.headers
+                                );
+
                             tokenResponse = await tokenService.refreshToken(
                                 refreshTokenCommand
                             );
+
                             break;
                         case "authorization_code":
                             exchangeTokenData =

@@ -5,9 +5,7 @@ interface CreateSessionInterface {
 export default class CreateSessionCommand implements CreateSessionInterface {
     readonly sessionToken: string;
 
-    constructor(data: Record<string, unknown> | CreateSessionInterface) {
-        const { sessionToken } = data;
-
+    constructor({ sessionToken }: CreateSessionInterface) {
         if (typeof sessionToken !== "string") {
             throw new Error("INVALID_SESSION_TOKEN");
         }

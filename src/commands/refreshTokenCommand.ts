@@ -1,20 +1,22 @@
 interface RefreshTokenInterface {
     grant_type: string;
     refresh_token: string;
-    basic_auth: string;
+    authorization: string;
     scope?: string;
 }
 
 export default class RefreshTokenCommand implements RefreshTokenInterface {
     readonly grant_type: string;
     readonly refresh_token: string;
-    readonly basic_auth: string;
+    readonly authorization: string;
     readonly scope?: string;
 
-    constructor(data: Record<string, unknown> | RefreshTokenInterface) {
-        const { grant_type, refresh_token, basic_auth, scope } =
-            data;
-
+    constructor({
+        grant_type,
+        refresh_token,
+        authorization,
+        scope
+    }: RefreshTokenInterface) {
         if (typeof grant_type !== "string") {
             throw new Error("INVALID_GRANT_TYPE");
         }
@@ -23,7 +25,7 @@ export default class RefreshTokenCommand implements RefreshTokenInterface {
             throw new Error("INVALID_REFRESH_TOKEN");
         }
 
-        if (typeof basic_auth !== "string") {
+        if (typeof authorization !== "string") {
             throw new Error("INVALID_BASIC");
         }
 
@@ -37,6 +39,6 @@ export default class RefreshTokenCommand implements RefreshTokenInterface {
 
         this.grant_type = grant_type;
         this.refresh_token = refresh_token;
-        this.basic_auth = basic_auth;
+        this.authorization = authorization;
     }
 }

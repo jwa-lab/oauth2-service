@@ -3,11 +3,8 @@ import UserinfoCommand from "../commands/userinfoCommand";
 import { HANDLERS_SUBJECTS } from "../config";
 import { userinfoService } from "../di.config";
 import { jsonCodec, PrivateNatsHandler } from "../services/natsService";
-import { ConnectorResponse } from "../network/config/connector";
 
-export interface UserinfoResponse extends ConnectorResponse {
-    data: Record<never, unknown>;
-}
+export type UserinfoResponse = Record<never, unknown>;
 
 export const userinfoPrivateHandlers: PrivateNatsHandler[] = [
     [

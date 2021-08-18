@@ -7,14 +7,11 @@ import {
     jsonCodec,
     PrivateNatsHandler
 } from "../services/natsService";
-import { ConnectorResponse } from "../network/config/connector";
 
-export interface AuthorizeResponseInterface extends ConnectorResponse {
-    data: {
-        code: string;
-        state: string;
-        redirect_uri: string;
-    };
+export interface AuthorizeResponse {
+    code: string;
+    state: string;
+    redirect_uri: string;
 }
 
 export const authorizePrivateHandlers: PrivateNatsHandler[] = [
@@ -23,12 +20,12 @@ export const authorizePrivateHandlers: PrivateNatsHandler[] = [
         async (subscription: Subscription): Promise<void> => {
             for await (const message of subscription) {
                 try {
-                    const data = deserialize<AuthorizeCommand>(
+                    const authorizeCommand = deserialize<AuthorizeCommand>(
                         message.data,
                         AuthorizeCommand,
                         message?.headers
                     );
-                    const authorizeCommand = new AuthorizeCommand(data);
+
                     const authorizeResponse = await authorizeService.authorize(
                         authorizeCommand
                     );
@@ -39,7 +36,7 @@ export const authorizePrivateHandlers: PrivateNatsHandler[] = [
                         throw new Error("INVALID_STATE");
                     }
 
-                    if (!authorizeResponse.data?.code) {
+                    if (!authorizeResponse.data.code) {
                         throw new Error("REQUEST_ERROR");
                     }
 

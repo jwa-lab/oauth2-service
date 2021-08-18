@@ -26,7 +26,7 @@
         }
     ],
     "paths": {
-        "/auth-service/token": {
+        "/auth/auth-service/token": {
             "post": {
                 "tags": ["auth-service/token"],
                 "summary": "Exchange an authorization code",
@@ -93,7 +93,7 @@
                 }
             }
         },
-        "/auth-service/token\u200E": {
+        "/auth/auth-service/token\u200E": {
             "post": {
                 "tags": ["auth-service/token"],
                 "summary": "Refresh an access token",
@@ -174,7 +174,7 @@
                 }
             }
         },
-        "/auth-service/authn": {
+        "/auth/auth-service/authn": {
             "post": {
                 "tags": ["auth-service/authn"],
                 "summary": "Authenticate a user and get a session id cookie",
@@ -229,7 +229,7 @@
                 }
             }
         },
-        "/auth-service/sessions": {
+        "/auth/auth-service/sessions": {
             "post": {
                 "tags": ["auth-service/sessions"],
                 "summary": "Create a new session with a session token",
@@ -292,8 +292,8 @@
                 }
             }
         },
-        "/auth-service/userinfo": {
-            "post": {
+        "/auth/auth-service/userinfo": {
+            "get": {
                 "tags": ["auth-service/userinfo"],
                 "security": [
                     {
@@ -336,7 +336,7 @@
                 }
             }
         },
-        "/auth-service/authorize": {
+        "/auth/auth-service/authorize": {
             "get": {
                 "tags": ["auth-service/authorize"],
                 "summary": "Begin the OAuth2.0 flow (back-end only)",
@@ -344,7 +344,7 @@
                 "parameters": [
                     {
                         "name": "state",
-                        "in": "path",
+                        "in": "query",
                         "description": "Random state",
                         "required": true,
                         "schema": {
@@ -354,7 +354,7 @@
                     },
                     {
                         "name": "client_id",
-                        "in": "path",
+                        "in": "query",
                         "description": "App client ID",
                         "required": true,
                         "schema": {
@@ -364,7 +364,7 @@
                     },
                     {
                         "name": "redirect_uri",
-                        "in": "path",
+                        "in": "query",
                         "description": "App redirect uri",
                         "required": true,
                         "schema": {
@@ -374,7 +374,7 @@
                     },
                     {
                         "name": "scope",
-                        "in": "path",
+                        "in": "query",
                         "description": "App required scopes",
                         "required": true,
                         "schema": {

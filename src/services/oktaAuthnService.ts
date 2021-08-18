@@ -3,10 +3,12 @@ import { AUTHN_ENDPOINT } from "../config";
 import ConnectorInterface, {
     ConnectorResponse
 } from "../network/config/connector";
-import { AuthnResponseInterface } from "../private/authnPrivateHandler";
+import { AuthnResponse } from "../private/authnPrivateHandler";
 
 interface AuthnServiceInterface {
-    authn: (authnCommand: AuthnCommand) => Promise<ConnectorResponse>;
+    authn: (
+        authnCommand: AuthnCommand
+    ) => Promise<ConnectorResponse<AuthnResponse>>;
 }
 
 export default class OktaAuthnService implements AuthnServiceInterface {
@@ -22,7 +24,7 @@ export default class OktaAuthnService implements AuthnServiceInterface {
 
     public async authn(
         authnCommand: AuthnCommand
-    ): Promise<AuthnResponseInterface> {
+    ): Promise<ConnectorResponse<AuthnResponse>> {
         const { username, password } = authnCommand;
         const payload = {
             username: username,
@@ -33,9 +35,6 @@ export default class OktaAuthnService implements AuthnServiceInterface {
             }
         };
 
-        return this.restConnector.post(
-            AUTHN_ENDPOINT,
-            payload
-        ) as Promise<AuthnResponseInterface>;
+        return this.restConnector.post<AuthnResponse>(AUTHN_ENDPOINT, payload);
     }
 }

@@ -8,7 +8,7 @@ import { CreateSessionResponse } from "../private/sessionPrivateHandler";
 interface SessionServiceInterface {
     createSession: (
         createSessionCommand: CreateSessionCommand
-    ) => Promise<ConnectorResponse>;
+    ) => Promise<ConnectorResponse<CreateSessionResponse>>;
 }
 
 export default class OktaSessionService implements SessionServiceInterface {
@@ -24,15 +24,15 @@ export default class OktaSessionService implements SessionServiceInterface {
 
     public async createSession(
         createSessionCommand: CreateSessionCommand
-    ): Promise<CreateSessionResponse> {
+    ): Promise<ConnectorResponse<CreateSessionResponse>> {
         const { sessionToken } = createSessionCommand;
         const payload = {
             sessionToken
         };
 
-        return this.restConnector.post(
+        return this.restConnector.post<CreateSessionResponse>(
             SESSIONS_ENDPOINT,
             payload
-        ) as Promise<CreateSessionResponse>;
+        );
     }
 }

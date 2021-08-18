@@ -1,30 +1,28 @@
-export interface ConnectorResponse {
-    data: unknown;
-    headers: never | unknown;
+export interface ConnectorResponse<T> {
+    data: T;
+    headers: Record<string, unknown>;
     status: number;
     request?: never;
 }
 
 export interface ConnectorConfigInterface {
-    url?: string;
-    method?: string;
     headers?: Record<string, unknown>;
-    params?: Record<string, never>;
-    body?: Record<never, unknown> | string;
+    params?: Record<string, unknown>;
+    body?: Record<string, unknown>;
     withCredentials?: boolean;
     maxBodyLength?: number;
     maxRedirects?: number;
 }
 
 export default interface ConnectorInterface {
-    post: (
+    post: <T>(
         url: string,
-        body: Record<never, unknown> | string,
+        body: Record<never, unknown>,
         config?: ConnectorConfigInterface
-    ) => Promise<ConnectorResponse>;
-    get: (
+    ) => Promise<ConnectorResponse<T>>;
+    get: <T>(
         url: string,
         params?: Record<string, unknown>,
         config?: ConnectorConfigInterface
-    ) => Promise<ConnectorResponse>;
+    ) => Promise<ConnectorResponse<T>>;
 }

@@ -36,10 +36,14 @@ export interface AirlockPayload {
 
 export function deserialize<T>(
     serialized: Uint8Array,
-    deserializer: { new (data: Record<string, unknown>): T },
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    deserializer: { new (data: any): T },
     headers?: MsgHdrs
 ): T {
-    const deserialized = jsonCodec.decode(serialized) as Record<never, unknown>;
+    // any is desired here as we don't know what is deserialized but this function will validate
+    // the return type at compile and run time
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    const deserialized = jsonCodec.decode(serialized) as any;
     const parsedHeaders: JSONValue = {};
 
     if (headers) {
@@ -48,7 +52,10 @@ export function deserialize<T>(
         }
     }
 
-    return new deserializer({ ...deserialized, ...(headers && parsedHeaders) });
+    return new deserializer({
+        ...deserialized,
+        ...(headers && parsedHeaders)
+    });
 }
 
 let natsConnection: NatsConnection;

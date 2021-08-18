@@ -1,29 +1,26 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import ConnectorInterface, {
-    ConnectorConfigInterface
+    ConnectorConfigInterface,
+    ConnectorResponse
 } from "./config/connector";
 
 export default class AxiosConnector implements ConnectorInterface {
-    public async get(
+    public async get<T>(
         url: string,
-        params?: Record<string, unknown>,
-        config?: ConnectorConfigInterface
-    ): Promise<never> {
-        const a_config = (config as AxiosRequestConfig) || {};
-
-        return axios.get(url, {
-            ...(params && { params: params }),
-            ...(a_config && a_config)
+        params = {},
+        config: ConnectorConfigInterface = {}
+    ): Promise<ConnectorResponse<T>> {
+        return axios.get<T>(url, {
+            params,
+            ...config
         });
     }
 
-    public async post(
+    public async post<T>(
         url: string,
-        body: Record<never, unknown> | string,
-        config: ConnectorConfigInterface | unknown
-    ): Promise<never> {
-        const a_config = (config as AxiosRequestConfig) || {};
-
-        return axios.post(url, body, a_config);
+        body: Record<never, unknown>,
+        config: ConnectorConfigInterface = {}
+    ): Promise<ConnectorResponse<T>> {
+        return axios.post<T>(url, body, config);
     }
 }
