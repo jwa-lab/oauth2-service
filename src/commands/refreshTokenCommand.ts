@@ -11,7 +11,7 @@ export default class RefreshTokenCommand implements RefreshTokenInterface {
     readonly basic_auth: string;
     readonly scope?: string;
 
-    constructor(data: Record<string, unknown>) {
+    constructor(data: Record<string, unknown> | RefreshTokenInterface) {
         const { grant_type, refresh_token, basic_auth, scope } =
             data;
 
