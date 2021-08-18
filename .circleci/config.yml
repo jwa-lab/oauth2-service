@@ -1,0 +1,32 @@
+version: 2.1
+orbs:
+    node: circleci/node@4.7.0
+jobs:
+    lint:
+        executor:
+            name: node/default
+            tag: "16.6"
+        steps:
+            - checkout
+            - run: npm install
+            - run: npm run lint
+    test:
+        machine:
+            image: ubuntu-2004:202107-02
+        steps:
+            - checkout
+            - run:
+                  command: docker-compose up
+                  background: true
+            - run: npm ci
+            - run: npm run build
+            - run:
+                  command: ./run start-node
+                  background: true
+            - run: sleep 6
+            - run: ./run test
+workflows:
+    tests:
+        jobs:
+            - lint
+            - test
